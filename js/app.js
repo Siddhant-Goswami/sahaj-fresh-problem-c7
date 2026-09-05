@@ -31,6 +31,109 @@ function toast(msg, kind) {
   toastT = setTimeout(() => t.classList.remove('show'), kind === 'bad' ? 6000 : 3400);
 }
 
+/* ---- markdown, enough of it for the corpus ----
+   Escape first, then build markup, so document text can never inject. */
+
+function mdInline(s) {
+  return s
+    .replace(/`([^`]+)`/g, '<code>$1</code>')
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/(^|[^*\w])\*([^*\n]+)\*(?![*\w])/g, '$1<em>$2</em>')
+    .replace(/(^|[^_\w])_([^_\n]+)_(?![_\w])/g, '$1<em>$2</em>');
+}
+function mdRow(l) {
+  return l.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map(c => c.trim());
+}
+function mdToHtml(src) {
+  const L = esc(src).split('\n');
+  const out = [];
+  const isBreak = l =>
+    /^\s*(#{1,6})\s/.test(l) || /^\s*&gt;/.test(l) || /^\s*\|/.test(l) ||
+    /^\s*(---+|\*\*\*+)\s*$/.test(l) || /^\s*([-*+]|\d+\.)\s+/.test(l);
+  let i = 0;
+
+  while (i < L.length) {
+    const l = L[i];
+
+    // table: a pipe row followed by a separator row
+    if (/^\s*\|/.test(l) && i + 1 < L.length && /^\s*\|[\s:|-]+\|?\s*$/.test(L[i + 1])) {
+      const head = mdRow(l);
+      i += 2;
+      const body = [];
+      while (i < L.length && /^\s*\|/.test(L[i])) { body.push(mdRow(L[i])); i++; }
+      out.push('<table class="mdt"><thead><tr>' + head.map(c => '<th>' + mdInline(c) + '</th>').join('') +
+        '</tr></thead><tbody>' + body.map(r => '<tr>' + r.map(c => '<td>' + mdInline(c) + '</td>').join('') + '</tr>').join('') +
+        '</tbody></table>');
+      continue;
+    }
+
+    const h = l.match(/^\s*(#{1,6})\s+(.*)$/);
+    if (h) { const n = h[1].length; out.push('<h' + n + '>' + mdInline(h[2]) + '</h' + n + '>'); i++; continue; }
+
+    if (/^\s*(---+|\*\*\*+)\s*$/.test(l)) { out.push('<hr>'); i++; continue; }
+
+    if (/^\s*&gt;/.test(l)) {
+      const buf = [];
+      while (i < L.length && /^\s*&gt;/.test(L[i])) { buf.push(L[i].replace(/^\s*&gt;\s?/, '')); i++; }
+      out.push('<blockquote>' + mdBlocks(buf) + '</blockquote>');
+      continue;
+    }
+
+    if (/^\s*([-*+]|\d+\.)\s+/.test(l)) {
+      const ord = /^\s*\d+\./.test(l);
+      const items = [];
+      while (i < L.length && /^\s*([-*+]|\d+\.)\s+/.test(L[i])) {
+        items.push(L[i].replace(/^\s*([-*+]|\d+\.)\s+/, '')); i++;
+      }
+      const t = ord ? 'ol' : 'ul';
+      out.push('<' + t + '>' + items.map(x => '<li>' + mdInline(x) + '</li>').join('') + '</' + t + '>');
+      continue;
+    }
+
+    if (!l.trim()) { i++; continue; }
+
+    const para = [];
+    while (i < L.length && L[i].trim() && !isBreak(L[i])) { para.push(L[i]); i++; }
+    if (para.length) out.push('<p>' + mdInline(para.join('<br>')) + '</p>');
+    else i++;
+  }
+  return out.join('\n');
+}
+function mdBlocks(arr) {
+  // re-run the block parser over already-escaped lines (used inside blockquotes)
+  const html = mdToHtml(arr.join('\n')
+    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>')
+    .replace(/&quot;/g, '"').replace(/&#39;/g, "'"));
+  return html;
+}
+
+/* Wrap search hits in <mark> without touching markup: text nodes only. */
+function markHits(root, q) {
+  if (!q) return;
+  const re = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi');
+  const walk = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walk.nextNode()) nodes.push(walk.currentNode);
+  nodes.forEach(n => {
+    const v = n.nodeValue;
+    re.lastIndex = 0;
+    if (!re.test(v)) return;
+    re.lastIndex = 0;
+    const frag = document.createDocumentFragment();
+    let last = 0, m;
+    while ((m = re.exec(v))) {
+      if (m.index > last) frag.appendChild(document.createTextNode(v.slice(last, m.index)));
+      const mk = document.createElement('mark');
+      mk.textContent = m[0];
+      frag.appendChild(mk);
+      last = m.index + m[0].length;
+      if (m[0].length === 0) re.lastIndex++;
+    }
+    if (last < v.length) frag.appendChild(document.createTextNode(v.slice(last)));
+    n.parentNode.replaceChild(frag, n);
+  });
+}
+
 const nz = s => String(s == null ? '' : s).trim().length > 0;
 const lines = s => String(s || '').split('\n').map(x => x.trim()).filter(Boolean);
 const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
@@ -59,7 +162,7 @@ function defaultState() {
     maxReached: 0,
     provider: 'groq', key: '', model: '',
     timers: {},
-    s1: { qs: Array.from({ length: 10 }, () => ({ q: '', a: '' })),
+    s1: { qs: Array.from({ length: Q_TARGET }, () => ({ q: '', a: '' })),
           who: '', what: '', where: '', nums: '', obs: '' },
     s2: { baseline: '', src: '', hyp: '', fals: '', test: '' },
     s3: { pitch: '', verdict: '', signoff: '', at: '', pushback: '' },
@@ -197,13 +300,13 @@ const GATES = {
   s1: () => {
     const a = S.s1;
     const filled = a.qs.filter(q => nz(q.q)).length;
-    if (filled < 10) return { ok: false, why: 'Write all 10 questions. ' + filled + ' so far.' };
+    if (filled < Q_TARGET) return { ok: false, why: 'Write all ' + Q_TARGET + ' questions. ' + filled + ' so far.' };
     if (!nz(a.who) || !nz(a.what) || !nz(a.where) || !nz(a.nums))
       return { ok: false, why: 'The observation needs all four parts: who, what breaks, where, in numbers.' };
     if (!hasNumber(a.nums)) return { ok: false, why: 'The numbers field has no number in it.' };
     const bad = solutionWordsIn(s1Obs());
     if (bad.length) return { ok: false, why: 'The observation names a solution (' + bad.slice(0, 3).join(', ') + '). Stage 1 is the problem only.' };
-    return { ok: true, why: 'Ten questions and an observation with a number in it.' };
+    return { ok: true, why: Q_TARGET + ' questions and an observation with a number in it.' };
   },
 
   s2: () => {
@@ -228,8 +331,8 @@ const GATES = {
     if (a.steps.length < 3) return { ok: false, why: 'A process with fewer than three steps is a wish. ' + a.steps.length + ' so far.' };
     if (a.steps.some(s => !nz(s.name))) return { ok: false, why: 'Every step needs a name.' };
     const unjust = a.steps.filter(s => s.kind === 'model' && !nz(s.why));
-    if (unjust.length) return { ok: false, why: unjust.length + ' model step(s) with no reason deterministic could not do it.' };
-    return { ok: true, why: 'Every model step is justified.' };
+    if (unjust.length) return { ok: false, why: unjust.length + ' probabilistic step(s) with no reason deterministic could not do it.' };
+    return { ok: true, why: 'Every probabilistic step is justified.' };
   },
 
   s5: () => {
@@ -238,9 +341,9 @@ const GATES = {
     if (!nz(S.s5.prompt)) return { ok: false, why: 'Write the prompt for your model step.' };
     if (ranCount() < CASE_TARGET) return { ok: false, why: 'Run the cases. ' + ranCount() + ' of ' + CASE_TARGET + ' have output.' };
     const ag = agreement();
-    if (!ag || ag.n < 10) return { ok: false, why: 'Hand-label 10 outputs. ' + (ag ? ag.n : 0) + ' done.' };
-    if (ag.agree < 8 && !nz(S.s5.whyNot))
-      return { ok: false, why: 'Grader agrees with you ' + ag.agree + ' of ' + ag.n + '. Get to 8, or write why not.' };
+    if (!ag || ag.n < LABEL_TARGET) return { ok: false, why: 'Hand-label ' + LABEL_TARGET + ' outputs. ' + (ag ? ag.n : 0) + ' done.' };
+    if (ag.agree < AGREE_TARGET && !nz(S.s5.whyNot))
+      return { ok: false, why: 'Grader agrees with you ' + ag.agree + ' of ' + ag.n + '. Get to ' + AGREE_TARGET + ', or write why not.' };
     return { ok: true, why: 'Grader agrees ' + ag.agree + ' of ' + ag.n + '.' };
   },
 
@@ -453,11 +556,11 @@ R.brief = function (root, st) {
 R.s1 = function (root, st) {
   root.className = 'step';
   root.innerHTML = head(st) +
-    '<p class="body">Ten questions for the client, asked before you know the answer. Then one observation: ' +
+    '<p class="body">Five questions for the client, asked before you know the answer. Then one observation: ' +
     '<strong>who, what breaks, where, in numbers.</strong> No solution. A stranger should read your observation ' +
     'and name the same problem.</p>' +
 
-    '<div class="bench"><div class="bench-title">' + ic('help-circle') + 'Your ten questions' +
+    '<div class="bench"><div class="bench-title">' + ic('help-circle') + 'Your five questions' +
     '<span class="spacer"></span><span class="caption mono" id="qcount"></span></div>' +
     '<p class="bench-intro">Write the question, then note what the client actually said when you asked it. ' +
     'The app flags questions that are really solutions in disguise.</p>' +
@@ -497,7 +600,7 @@ R.s1 = function (root, st) {
         icons();
       } else warn.hidden = true;
       const n = S.s1.qs.filter(x => nz(x.q)).length;
-      $('#qcount', root).textContent = n + ' / 10';
+      $('#qcount', root).textContent = n + ' / ' + Q_TARGET;
     }
     qi.addEventListener('input', () => { q.q = qi.value; lint(); save(); updateGate(); });
     ai.addEventListener('input', () => { q.a = ai.value; save(); });
@@ -525,7 +628,7 @@ R.s1 = function (root, st) {
     icons();
   }
   obsLint();
-  $('#qcount', root).textContent = S.s1.qs.filter(x => nz(x.q)).length + ' / 10';
+  $('#qcount', root).textContent = S.s1.qs.filter(x => nz(x.q)).length + ' / ' + Q_TARGET;
   mountTimer(st);
 };
 
@@ -568,11 +671,11 @@ R.s2 = function (root, st) {
 R.s3 = function (root, st) {
   root.className = 'step';
   root.innerHTML = head(st) +
-    '<p class="body">Five minutes to the client. They will push back once. If they say no or change, ' +
+    '<p class="body">Two minutes to the client. They will push back once. If they say no or change, ' +
     'record that and go back &mdash; do not start designing on a maybe.</p>' +
 
     '<div class="bench"><div class="bench-title">' + ic('presentation') + 'The pitch</div>' +
-    '<p class="bench-intro">Problem, evidence, what you propose to test, what it costs to find out. Five minutes.</p>' +
+    '<p class="bench-intro">Problem, evidence, what you propose to test, what it costs to find out. Two minutes.</p>' +
     '<div class="field"><textarea class="textarea" id="f-pitch" style="min-height:170px"></textarea></div></div>' +
 
     '<div class="bench"><div class="bench-title">' + ic('message-square-warning') + 'The pushback</div>' +
@@ -624,9 +727,14 @@ R.s3 = function (root, st) {
 R.s4 = function (root, st) {
   root.className = 'step step--wide';
   root.innerHTML = head(st) +
-    '<p class="body">Input, output, steps. Tag every step <strong>deterministic</strong>, <strong>model</strong>, ' +
-    'or <strong>human</strong>. Every model step must carry a reason a deterministic step could not do it. ' +
-    'If you cannot write that reason, the step is deterministic and you were reaching for a model out of habit.</p>' +
+    '<p class="body">Input, output, steps. Tag every step <strong>deterministic</strong>, ' +
+    '<strong>probabilistic</strong>, or <strong>human</strong>. Every probabilistic step must carry a reason ' +
+    'a deterministic step could not do it. If you cannot write that reason, the step is deterministic and ' +
+    'you were reaching for a model out of habit.</p>' +
+    '<div class="kindkey">' + STEP_KINDS.map(k =>
+      '<span class="kk"><i class="kkdot" style="background:' + k.color + '"></i>' +
+      '<b style="color:' + k.color + '">' + k.short + '</b> ' + esc(k.label) +
+      '<span class="kkh">' + esc(k.hint) + '</span></span>').join('') + '</div>' +
 
     '<div class="bench">' +
     '<div class="field"><label class="label" for="f-in">Input <span class="hint">what arrives, and from where</span></label>' +
@@ -639,12 +747,7 @@ R.s4 = function (root, st) {
     '<div class="row-wrap"><button class="btn btn--secondary btn--sm" id="addStep">' + ic('plus') + ' Add step</button>' +
     '<span class="caption mut">Drag is not needed &mdash; use the arrows to reorder.</span></div></div>' +
     '<div><div class="glabel">Control graph</div><div class="cg-canvas" id="cg"></div></div>' +
-    '</div>' +
-
-    '<div class="anchor">' + ic('scissors') +
-    '<div><strong>The null test.</strong> Before you tag anything a model step, ask what happens if you build nothing. ' +
-    'On this account the largest single fix may be a contract variation, not software. Say so if it is true; ' +
-    'a builder who tells the client that is worth more than one who does not.</div></div>';
+    '</div>';
 
   ['in', 'out'].forEach(k => {
     const f = $('#f-' + k, root);
@@ -658,7 +761,7 @@ R.s4 = function (root, st) {
 
   function drawGraph() {
     const steps = S.s4.steps;
-    const COL = { det: '#2563EB', model: '#F96846', human: '#7C3AED' };
+    const COL = {}; STEP_KINDS.forEach(k => { COL[k.id] = k.color; });
     const W = 300, rowH = 46, padT = 34, padB = 40;
     const H = padT + steps.length * rowH + padB + 10;
     let g = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Control graph">';
@@ -691,11 +794,9 @@ R.s4 = function (root, st) {
     const counts = { det: 0, model: 0, human: 0 };
     steps.forEach(s => counts[s.kind]++);
     $('#cg', root).innerHTML = g +
-      '<div class="cg-legend">' +
-      '<span><i style="background:#2563EB"></i>deterministic ' + counts.det + '</span>' +
-      '<span><i style="background:#F96846"></i>model ' + counts.model + '</span>' +
-      '<span><i style="background:#7C3AED"></i>human ' + counts.human + '</span>' +
-      '</div>';
+      '<div class="cg-legend">' + STEP_KINDS.map(k =>
+        '<span><i style="background:' + k.color + '"></i>' + k.label.toLowerCase() + ' ' + counts[k.id] + '</span>'
+      ).join('') + '</div>';
   }
 
   function renderSteps() {
@@ -708,7 +809,8 @@ R.s4 = function (root, st) {
         '<div class="pstep-top">' +
         '<input class="input input--sm nm" placeholder="What this step does" />' +
         '<div class="kindsel">' + STEP_KINDS.map(k =>
-          '<button data-k="' + k.id + '" class="' + (s.kind === k.id ? 'sel' : '') + '" title="' + esc(k.hint) + '">' + k.label.slice(0, 3).toUpperCase() + '</button>'
+          '<button data-k="' + k.id + '" class="' + (s.kind === k.id ? 'sel' : '') + '" ' +
+          'title="' + esc(k.label + ' — ' + k.hint) + '" aria-label="' + esc(k.label) + '">' + k.short + '</button>'
         ).join('') + '</div>' +
         '<button class="iconbtn up" title="Move up">' + ic('chevron-up') + '</button>' +
         '<button class="iconbtn del" title="Remove">' + ic('trash-2') + '</button>' +
@@ -758,21 +860,43 @@ R.s4 = function (root, st) {
 R.s5 = function (root, st) {
   root.className = 'step step--eval';
   root.innerHTML = head(st) +
-    '<p class="body">Fifteen cases: input, expected output, check. Run them against your process for real. ' +
-    'Then hand-label ten outputs without looking at your grader, and see whether the grader agrees with you.</p>' +
+    '<p class="body">This is the stage where you find out whether your process actually works. ' +
+    'You will build a small test set, run it for real, and then check the checker.</p>' +
 
-    '<div class="bench"><div class="bench-title">' + ic('file-code-2') + 'The model step</div>' +
+    '<div class="bench primer"><div class="bench-title">' + ic('graduation-cap') + 'What you are doing here</div>' +
+    '<p class="bench-intro">If you have never written an eval set before, read this once. It is four moves, in order.</p>' +
+    '<div class="moves">' +
+    '<div class="move"><span class="mn">1</span><div><b>Write the prompt.</b> One instruction for the one ' +
+    'probabilistic step in your control graph. It has to return the fixed JSON shape below, because a check ' +
+    'can only test something with a predictable shape.</div></div>' +
+    '<div class="move"><span class="mn">2</span><div><b>Say what right looks like.</b> A <em>case</em> is one ' +
+    'ticket plus the answer you believe is correct for it. Six tickets are loaded from the client\'s own corpus ' +
+    'with the answers left blank on purpose &mdash; deciding them is the actual work, and it is where you find ' +
+    'out your own definition of "warm" is fuzzier than you thought. Write ' + (CASE_TARGET - SEED_CASES.length) +
+    ' more yourself so the awkward shapes are covered too.</div></div>' +
+    '<div class="move"><span class="mn">3</span><div><b>Run it.</b> One real model call per case. You now have ' +
+    'what the model said next to what you said it should say, and a pass rate.</div></div>' +
+    '<div class="move"><span class="mn">4</span><div><b>Judge the judge.</b> Read ' + LABEL_TARGET + ' outputs ' +
+    'yourself and mark each right or wrong before you are shown the grader\'s verdict. If you and your grader ' +
+    'disagree, <strong>the grader is the thing that is broken</strong>, not you. That agreement number is the ' +
+    'only evidence that your automated check means anything.</div></div>' +
+    '</div>' +
+    '<div class="anchor">' + ic('info') + '<div><strong>A high pass rate here proves nothing on its own.</strong> ' +
+    'You wrote the cases and you wrote the grader, so of course they agree. Stage 6 is where that gets tested.</div></div>' +
+    '</div>' +
+
+    '<div class="bench"><div class="bench-title">' + ic('file-code-2') + '<span class="stepnum">1</span> The prompt for your probabilistic step</div>' +
     '<p class="bench-intro">Write the prompt for the one model step in your control graph. It must return exactly ' +
     'this JSON and nothing else, or your deterministic checks have nothing to check.</p>' +
     '<pre class="codeblk">' + esc(OUTPUT_CONTRACT) + '</pre>' +
     '<div class="field"><label class="label" for="f-prompt">System prompt</label>' +
     '<textarea class="textarea mono" id="f-prompt" style="min-height:150px" placeholder="You are classifying one Sahaj Fresh support ticket..."></textarea></div></div>' +
 
-    '<div class="bench"><div class="bench-title">' + ic('layers') + 'The cases' +
+    '<div class="bench"><div class="bench-title">' + ic('layers') + '<span class="stepnum">2</span> The cases' +
     '<span class="spacer"></span><span class="caption mono" id="ccount"></span></div>' +
-    '<p class="bench-intro">Six are seeded verbatim from the corpus with the expected output left blank &mdash; ' +
-    'deciding what right looks like is your job. Write the rest from the pattern. ' +
-    'Your set must force every class below, or your pass rate is measuring the easy half of the problem.</p>' +
+    '<p class="bench-intro">' + CASE_TARGET + ' cases. Load the six corpus tickets, fill in the expected output ' +
+    'for each, then write ' + (CASE_TARGET - SEED_CASES.length) + ' of your own. Tag each case with the class it ' +
+    'covers: a set that is all easy complaints measures only the easy half of the problem.</p>' +
     '<div class="coverage" id="cvg"></div>' +
     '<div class="row-wrap" style="margin-bottom:12px">' +
     '<button class="btn btn--secondary btn--sm" id="seedBtn">' + ic('download') + ' Load the 6 corpus tickets</button>' +
@@ -780,7 +904,7 @@ R.s5 = function (root, st) {
     '</div>' +
     '<div class="cases" id="cases"></div></div>' +
 
-    '<div class="bench"><div class="bench-title">' + ic('play-circle') + 'Run</div>' +
+    '<div class="bench"><div class="bench-title">' + ic('play-circle') + '<span class="stepnum">3</span> Run</div>' +
     '<p class="bench-intro">One call per case against your provider. Tokens are recorded to the ledger and ' +
     'stage 8 reads them; nothing here is estimated.</p>' +
     '<div class="runbar">' +
@@ -789,8 +913,9 @@ R.s5 = function (root, st) {
     '<span class="caption mono" id="runNote"></span></div></div>' +
 
     '<div class="bench"><div class="bench-title">' + ic('ruler') + 'The grader</div>' +
-    '<p class="bench-intro">Deterministic field checks first. Then one judgement on the classification label. ' +
-    'Choose how that label is judged &mdash; the choice matters more than it looks, and stage 6 is where you find out.</p>' +
+    '<p class="bench-intro">The grader is the code that decides pass or fail without you. Check the two ' +
+    'easy fields exactly, then pick how the condition label is judged. That last choice matters far more ' +
+    'than it looks, and stage 6 is where you find out why.</p>' +
     '<div class="row-wrap" style="margin-bottom:12px">' +
     '<label class="pick"><input type="checkbox" id="gk-route"> route must match exactly</label>' +
     '<label class="pick"><input type="checkbox" id="gk-esc"> escalate must match exactly</label>' +
@@ -798,10 +923,11 @@ R.s5 = function (root, st) {
     '<div class="gopts" id="gmodes"></div>' +
     '<div id="kwbox"></div></div>' +
 
-    '<div class="bench"><div class="bench-title">' + ic('user-check') + 'Hand-label ten' +
+    '<div class="bench"><div class="bench-title">' + ic('user-check') + '<span class="stepnum">4</span> Hand-label ' + LABEL_TARGET +
     '<span class="spacer"></span><span class="caption mono" id="hlnote"></span></div>' +
-    '<p class="bench-intro">Read the ticket and the model output. Say whether the output is right, ' +
-    'using your own judgement. Your grader\'s verdict stays hidden until all ten are labelled.</p>' +
+    '<p class="bench-intro">Read the ticket and the model output. Say whether the output is right, using ' +
+    'your own judgement. Your grader\'s verdict stays hidden until all ' + LABEL_TARGET + ' are labelled, ' +
+    'so you cannot be influenced by it.</p>' +
     '<div id="hl"></div>' +
     '<div id="hlres"></div></div>';
 
@@ -956,7 +1082,7 @@ R.s5 = function (root, st) {
 
   /* --- hand labelling --- */
   function renderHL() {
-    const done = S.s5.cases.filter(c => c.out).slice(0, 10);
+    const done = S.s5.cases.filter(c => c.out).slice(0, LABEL_TARGET);
     const box = $('#hl', root);
     if (!done.length) {
       box.innerHTML = '<p class="caption mut">Run the cases first. There is nothing to label yet.</p>';
@@ -985,10 +1111,10 @@ R.s5 = function (root, st) {
     });
 
     const ag = agreement();
-    $('#hlnote', root).textContent = (ag ? ag.n : 0) + ' / 10 labelled';
+    $('#hlnote', root).textContent = (ag ? ag.n : 0) + ' / ' + LABEL_TARGET + ' labelled';
     const res = $('#hlres', root);
     if (all && ag) {
-      const good = ag.agree >= 8;
+      const good = ag.agree >= AGREE_TARGET;
       res.innerHTML =
         '<div class="scorecard">' +
         '<div class="sc"><b>Grader agreement</b><div class="v ' + (good ? 'good' : 'warn') + '">' + ag.agree + ' / ' + ag.n + '</div>' +
@@ -997,9 +1123,9 @@ R.s5 = function (root, st) {
         '<div class="s">what the grader says today</div></div>' +
         '</div>' +
         (good
-          ? '<div class="anchor">' + ic('check-circle-2') + '<div>Eight or better. Your grader is a reasonable stand-in for you ' +
-            '&mdash; on these cases. Stage 6 is where you find out what that is worth.</div></div>'
-          : '<div class="anchor warnbox">' + ic('alert-triangle') + '<div><strong>Below eight.</strong> Either fix the grader ' +
+          ? '<div class="anchor">' + ic('check-circle-2') + '<div>' + AGREE_TARGET + ' or better. Your grader is a reasonable ' +
+            'stand-in for you &mdash; on these cases. Stage 6 is where you find out what that is worth.</div></div>'
+          : '<div class="anchor warnbox">' + ic('alert-triangle') + '<div><strong>Below ' + AGREE_TARGET + '.</strong> Either fix the grader ' +
             'and re-check, or write down why the disagreement is the grader being right and you being sloppy. ' +
             'Both are acceptable; silence is not.</div></div>' +
             '<div class="field" style="margin-top:12px"><label class="label" for="f-why">Why not</label>' +
@@ -1581,7 +1707,7 @@ function buildMarkdown() {
 
   p('## Stage 1 — Extract the problem');
   p('');
-  p('### The ten questions');
+  p('### The questions');
   p('');
   S.s1.qs.forEach((q, i) => { if (nz(q.q)) { p((i + 1) + '. ' + q.q); if (nz(q.a)) p('   - Client said: ' + q.a); } });
   p('');
@@ -1831,14 +1957,21 @@ function corpusDrawer() {
     }
     function show(id, q) {
       const d = CORPUS.find(x => x.id === id);
-      let body = esc(d.text);
-      if (q) body = body.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi'), '<mark>$1</mark>');
       $('#drawerBody').innerHTML =
+        '<div class="row-wrap" style="margin:0 0 12px">' +
         '<button class="btn btn--ghost btn--sm" id="back">' + ic('arrow-left') + ' All documents</button>' +
-        '<div class="glabel">' + esc(d.file) + '</div>' +
-        '<pre class="doctext">' + body + '</pre>';
+        '<button class="btn btn--ghost btn--sm" id="raw">' + ic('code') + ' Raw</button>' +
+        '<span class="caption mut">' + esc(d.file) + '</span></div>' +
+        '<div class="mdbody" id="mdb">' + mdToHtml(d.text) + '</div>';
       icons();
+      markHits($('#mdb'), q);
       $('#back').addEventListener('click', corpusDrawer);
+      $('#raw').addEventListener('click', () => {
+        const b = $('#mdb');
+        if (b.dataset.raw === '1') { b.innerHTML = mdToHtml(d.text); b.dataset.raw = ''; b.className = 'mdbody'; }
+        else { b.textContent = d.text; b.dataset.raw = '1'; b.className = 'mdbody rawmd'; }
+        markHits(b, q);
+      });
     }
     $('#cq', box).addEventListener('input', e => list(e.target.value));
     list('');

@@ -22,14 +22,16 @@ actually returned.
 
 | # | Stage | Time | You produce | Gate |
 |---|---|---|---|---|
-| 1 | Extract the problem | 40 min | 10 questions, then one observation: who, what breaks, where, in numbers | 10 questions, observation with a number and no solution words |
-| 2 | Define good | 30 min | Baseline, hypothesis, falsifier, cheapest manual test | All four, baseline carries a figure |
-| 3 | Align | 15 min | 5 minute pitch; client says yes, no, or change | Verdict is yes and sign-off is in writing |
-| 4 | Design the process | 40 min | Input, output, steps tagged deterministic / model / human | Every model step has a reason deterministic could not do it |
-| 5 | Write evals | 60 min | 15 cases, run for real, 10 hand-labelled against your grader | Grader agrees 8 of 10, or you write why not |
-| 6 | Break your evals | 20 min | One output that passes every check and is wrong | Exploit passes, you mark it wrong, check rewritten, rates recorded |
-| 7 | Guardrails | 30 min | Three boundaries, each with a catch and a false positive | Each guard tested against a real run output |
-| 8 | Price it | 30 min | Cost per ticket, per month, check cost vs do cost, five lines for the client | Costed from measured tokens; five lines means five |
+| 1 | Extract the problem | 15 min | 5 questions, then one observation: who, what breaks, where, in numbers | 5 questions, observation with a number and no solution words |
+| 2 | Define good | 10 min | Baseline, hypothesis, falsifier, cheapest manual test | All four, baseline carries a figure |
+| 3 | Align | 5 min | 2 minute pitch; client says yes, no, or change | Verdict is yes and sign-off is in writing |
+| 4 | Design the process | 12 min | Input, output, steps tagged deterministic / probabilistic / human | Every probabilistic step has a reason deterministic could not do it |
+| 5 | Write evals | 25 min | 10 cases, run for real, 6 hand-labelled against your grader | Grader agrees 5 of 6, or you write why not |
+| 6 | Break your evals | 12 min | One output that passes every check and is wrong | Exploit passes, you mark it wrong, check rewritten, rates recorded |
+| 7 | Guardrails | 10 min | Three boundaries, each with a catch and a false positive | Each guard tested against a real run output |
+| 8 | Price it | 10 min | Cost per ticket, per month, check cost vs do cost, five lines for the client | Costed from measured tokens; five lines means five |
+
+**Ninety-nine minutes end to end.** Each stage has its own pausable countdown in the header.
 
 Stage 6 is marked higher than stage 5. Finding your own blind spot beats a clean pass.
 
@@ -56,7 +58,7 @@ Stages 5 to 8 make real calls. Pick a provider in **Setup**, paste a key, pick a
 All three are called through the OpenAI chat-completions shape, so one adapter covers them. The key lives in
 this browser's `localStorage`, is sent to the provider you chose and nowhere else, and is never committed
 anywhere. A throwaway key with a spend cap is a sensible choice — a full pass through the assignment is
-roughly 30 to 60 calls at ~1,500 input tokens each.
+roughly 20 to 40 calls at ~1,500 input tokens each.
 
 Prices in `js/data.js` are **defaults that move**. Stage 8 lets you edit both price fields, and it tells you
 to check the provider's page before quoting a number to the client.

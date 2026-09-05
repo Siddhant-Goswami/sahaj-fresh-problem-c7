@@ -21,56 +21,56 @@ const STAGES = [
   {
     id: 's1', num: 1, icon: 'search',
     title: 'Extract the problem',
-    time: 40,
-    produce: '10 questions for the client, then one observation: who, what breaks, where, in numbers. No solution.',
+    time: 15,
+    produce: '5 questions for the client, then one observation: who, what breaks, where, in numbers. No solution.',
     doneWhen: 'A stranger reads it and names the same problem.',
   },
   {
     id: 's2', num: 2, icon: 'ruler',
     title: 'Define good',
-    time: 30,
+    time: 10,
     produce: 'Baseline number, hypothesis, one falsifier, cheapest manual test.',
     doneWhen: 'Client would accept the test as proof.',
   },
   {
     id: 's3', num: 3, icon: 'handshake',
     title: 'Align',
-    time: 15,
-    produce: '5 minute pitch to the client. Client says yes, no, or change.',
+    time: 5,
+    produce: '2 minute pitch to the client. Client says yes, no, or change.',
     doneWhen: 'Client signs off in writing.',
   },
   {
     id: 's4', num: 4, icon: 'workflow',
     title: 'Design the process',
-    time: 40,
-    produce: 'Input, output, steps. Each step tagged deterministic, model, or human. Control graph on the board.',
-    doneWhen: 'Every model step has a reason deterministic could not do it.',
+    time: 12,
+    produce: 'Input, output, steps. Each step tagged deterministic, probabilistic, or human. Control graph on the board.',
+    doneWhen: 'Every probabilistic step has a reason deterministic could not do it.',
   },
   {
     id: 's5', num: 5, icon: 'flask-conical',
     title: 'Write evals',
-    time: 60,
-    produce: '15 cases: input, expected output, check. Run against your process. Hand-label 10 outputs, compare to your grader.',
-    doneWhen: 'Grader agrees with you 8 of 10, or you say why not.',
+    time: 25,
+    produce: '10 cases: input, expected output, check. Run against your process. Hand-label 6 outputs, compare to your grader.',
+    doneWhen: 'Grader agrees with you 5 of 6, or you say why not.',
   },
   {
     id: 's6', num: 6, icon: 'hammer',
     title: 'Break your evals',
-    time: 20,
+    time: 12,
     produce: 'One output that passes every check and is wrong. Rewrite the check.',
     doneWhen: 'Pass rate on your cases moves, pass rate on hidden cases does not.',
   },
   {
     id: 's7', num: 7, icon: 'shield',
     title: 'Guardrails',
-    time: 30,
+    time: 10,
     produce: 'Three boundaries: what the system must never output or do. One catch and one false positive each.',
     doneWhen: 'Each guard tested on a real run.',
   },
   {
     id: 's8', num: 8, icon: 'indian-rupee',
     title: 'Price it',
-    time: 30,
+    time: 10,
     produce: "Tokens per unit of work, cost per month at the client's volume, cost of checking versus cost of doing. Explain to a non-technical client in five lines.",
     doneWhen: 'Client can repeat the number and what drives it.',
   },
@@ -103,11 +103,17 @@ const GOOD_QUESTION_HINTS = [
 
 /* ---------------- stage 4: step kinds ---------------- */
 
+// `model` stays the stored id so existing saved work keeps loading. Everything
+// the student reads says "probabilistic".
 const STEP_KINDS = [
-  { id: 'det',   label: 'Deterministic', hint: 'Code. Same input, same output, every time.' },
-  { id: 'model', label: 'Model',         hint: 'Needs judgement over language. Must be justified.' },
-  { id: 'human', label: 'Human',         hint: 'A person decides or speaks to a person.' },
+  { id: 'det',   short: 'D', label: 'Deterministic', color: '#F96846',
+    hint: 'Code. Same input, same output, every time.' },
+  { id: 'model', short: 'P', label: 'Probabilistic', color: '#7C3AED',
+    hint: 'A model reads it. The same input can come back different. Must be justified.' },
+  { id: 'human', short: 'H', label: 'Human',         color: '#15803D',
+    hint: 'A person decides, or speaks to a person.' },
 ];
+const KIND = {}; STEP_KINDS.forEach(k => { KIND[k.id] = k; });
 
 /* ---------------- stage 5: output contract + seeds ---------------- */
 
@@ -156,7 +162,10 @@ const REQUIRED_CLASSES = [
   { id: 'duplicate', label: 'Duplicate',                 hint: 'Same underlying event, second ticket.' },
 ];
 
-const CASE_TARGET = 15;
+const Q_TARGET     = 5;    // questions for the client at stage 1
+const CASE_TARGET  = 10;   // eval cases at stage 5
+const LABEL_TARGET = 6;    // outputs hand-labelled against the grader
+const AGREE_TARGET = 5;    // agreement needed, out of LABEL_TARGET
 
 /* ---------------- stage 7 ---------------- */
 
