@@ -186,11 +186,13 @@ const PROVIDERS = {
     url: 'https://api.groq.com/openai/v1/chat/completions',
     keyUrl: 'https://console.groq.com/keys',
     auth: 'bearer',
+    // First entry is the default. openai/gpt-oss-20b was removed: in JSON mode
+    // it fails Groq's own validation on roughly half the calls, which reads to a
+    // student as a broken prompt rather than a broken model choice.
     models: [
+      { id: 'openai/gpt-oss-120b',     in: 0.15, out: 0.75 },
       { id: 'llama-3.3-70b-versatile', in: 0.59, out: 0.79 },
       { id: 'llama-3.1-8b-instant',    in: 0.05, out: 0.08 },
-      { id: 'openai/gpt-oss-120b',     in: 0.15, out: 0.75 },
-      { id: 'openai/gpt-oss-20b',      in: 0.10, out: 0.50 },
     ],
   },
   openai: {

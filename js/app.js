@@ -182,6 +182,10 @@ function defaultState() {
     s6: {
       exploitTicket: '', exploitOut: '', exp: { condition: '', route: '', escalate: 'false' },
       graderSaid: null, humanWrong: null,
+      // The verdict the grader gave at the moment the exploit was tested, frozen.
+      // Rewriting the grader is the point of this stage; it must not overwrite
+      // the evidence that made the rewrite necessary.
+      exploitVerdict: null,
       rewrite: '', before: null, after: null,
       hidden: { ran: false, pass: 0, total: 0, rows: [] },
       hiddenBefore: null,
@@ -203,6 +207,17 @@ function load() {
     if (!raw) return;
     const o = JSON.parse(raw);
     if (o && o.v === 1) S = Object.assign(defaultState(), o);
+    // Sign-offs saved before the date fix carry the wall clock, which reads
+    // wrong inside a role-play set on ROLE_DATE. Move it, keep the real one.
+    if (S.s3 && S.s3.at && S.s3.at !== ROLE_DATE) {
+      S.s3.realAt = S.s3.realAt || S.s3.at;
+      S.s3.at = ROLE_DATE;
+    }
+    // Exploits confirmed before the verdict was frozen kept only the boolean.
+    // Keep the record rather than re-grading it against a grader since rewritten.
+    if (S.s6 && S.s6.graderSaid === true && !S.s6.exploitVerdict) {
+      S.s6.exploitVerdict = { pass: true, checks: [], grader: null };
+    }
   } catch (e) {}
 }
 
@@ -265,10 +280,14 @@ function deriveFromInput(text, kw) {
 }
 
 function ownPassRate() {
-  const done = S.s5.cases.filter(c => c.out);
-  if (!done.length) return null;
-  const p = done.filter(c => { const g = gradeCase(c); return g && g.pass; }).length;
-  return { pass: p, total: done.length };
+  // A call that failed is a case that did not pass, not a case that does not
+  // exist. Dividing by the ones that came back turns a rate limit into a
+  // flattering number, and stage 6 then compares that flattery to the hidden
+  // set, which does count its failures. Same denominator on both sides.
+  const attempted = S.s5.cases.filter(c => c.out || nz(c.err));
+  if (!attempted.length) return null;
+  const p = attempted.filter(c => { const g = gradeCase(c); return g && g.pass; }).length;
+  return { pass: p, total: attempted.length };
 }
 
 function agreement() {
@@ -339,12 +358,20 @@ const GATES = {
     const n = casesFilled();
     if (n < CASE_TARGET) return { ok: false, why: n + ' of ' + CASE_TARGET + ' cases have an input and an expected condition.' };
     if (!nz(S.s5.prompt)) return { ok: false, why: 'Write the prompt for your model step.' };
-    if (ranCount() < CASE_TARGET) return { ok: false, why: 'Run the cases. ' + ranCount() + ' of ' + CASE_TARGET + ' have output.' };
+    if (ranCount() < CASE_TARGET) {
+      // Distinguish "not run yet" from "the provider refused", or a rate limit
+      // reads as a prompt failure and the student rewrites a prompt that was fine.
+      const failed = S.s5.cases.filter(c => nz(c.input) && !c.out && nz(c.err)).length;
+      return { ok: false, why: 'Run the cases. ' + ranCount() + ' of ' + CASE_TARGET + ' have output' +
+        (failed ? ', and ' + failed + ' call(s) came back with an error. Read the error on the case before you touch the prompt — it may be the provider.' : '.') };
+    }
     const ag = agreement();
     if (!ag || ag.n < LABEL_TARGET) return { ok: false, why: 'Hand-label ' + LABEL_TARGET + ' outputs. ' + (ag ? ag.n : 0) + ' done.' };
     if (ag.agree < AGREE_TARGET && !nz(S.s5.whyNot))
       return { ok: false, why: 'Grader agrees with you ' + ag.agree + ' of ' + ag.n + '. Get to ' + AGREE_TARGET + ', or write why not.' };
-    return { ok: true, why: 'Grader agrees ' + ag.agree + ' of ' + ag.n + '.' };
+    const errored = S.s5.cases.filter(c => nz(c.input) && !c.out && nz(c.err)).length;
+    return { ok: true, why: 'Grader agrees ' + ag.agree + ' of ' + ag.n + '.' +
+      (errored ? ' ' + errored + ' call(s) never returned and count as failures in your pass rate.' : '') };
   },
 
   s6: () => {
@@ -716,7 +743,10 @@ R.s3 = function (root, st) {
   }
   $$('#verdicts .pick', root).forEach(b => b.addEventListener('click', () => {
     S.s3.verdict = b.dataset.v;
-    S.s3.at = new Date().toLocaleString('en-IN');
+    // The sign-off is an artefact of the role-play, so it carries the role-play's
+    // date. The real clock still goes in the bundle, for anyone checking the work.
+    S.s3.at = ROLE_DATE;
+    S.s3.realAt = new Date().toISOString();
     paintV(); save(); updateGate();
   }));
   paintV();
@@ -947,6 +977,14 @@ R.s5 = function (root, st) {
   function renderCases() {
     const box = $('#cases', root);
     box.innerHTML = '';
+    // The hand-label step is blind on purpose. Showing the grader's tick on the
+    // case card above it hands over the answer, so hold it back on exactly the
+    // cases being labelled, until every one of them has a label.
+    const blind = {};
+    const hlSet = S.s5.cases.filter(c => c.out).slice(0, LABEL_TARGET);
+    if (hlSet.length && !hlSet.every(c => S.s5.labels[c.id])) {
+      hlSet.forEach(c => { blind[c.id] = true; });
+    }
     S.s5.cases.forEach((c, i) => {
       const g = gradeCase(c);
       const row = el(
@@ -968,9 +1006,15 @@ R.s5 = function (root, st) {
         '</div>' +
         (c.raw ? '<div class="outbox">' + esc(c.raw) + '</div>' : '') +
         (c.err ? '<div class="outbox err-t">' + esc(c.err) + '</div>' : '') +
-        (g ? '<div class="checkline">' + g.checks.map(x =>
-          '<span class="chk ' + (x.pass ? 'y' : 'n') + '" title="' + esc(x.note) + '">' + x.name + ' ' + (x.pass ? '✓' : '✗') + '</span>'
-        ).join('') + '</div>' : '') +
+        (g
+          ? (blind[c.id]
+            ? '<div class="checkline"><span class="chk o" title="Hand-label this output below first. ' +
+              'The grader\'s verdict is held back so it cannot influence you.">grader verdict held ' +
+              'until you hand-label it</span></div>'
+            : '<div class="checkline">' + g.checks.map(x =>
+              '<span class="chk ' + (x.pass ? 'y' : 'n') + '" title="' + esc(x.note) + '">' + x.name + ' ' + (x.pass ? '✓' : '✗') + '</span>'
+            ).join('') + '</div>')
+          : '') +
         '</div>'
       );
       const inp = $('.inp', row), ec = $('.ec', row), er = $('.er', row), ee = $('.ee', row), cs = $('.classsel', row);
@@ -1052,7 +1096,10 @@ R.s5 = function (root, st) {
 
     const res = await LLM.batch(todo,
       async (x) => {
-        const r = await LLM.chat(S.s5.prompt, x.c.input, { json: true, maxTokens: 300 });
+        const r = await LLM.chat(S.s5.prompt, x.c.input, {
+          json: true, maxTokens: 300,
+          onRetry: e => { note.textContent = 'rate limited, waiting ' + Math.round(e.waitMs / 100) / 10 + 's (retry ' + e.attempt + ' of ' + e.of + ')'; },
+        });
         Ledger.add(S.ledger, { stage: 's5', purpose: 'case', caseId: x.c.id, model: r.model, in: r.usage.in, out: r.usage.out });
         return r;
       },
@@ -1105,8 +1152,9 @@ R.s5 = function (root, st) {
                (g && g.pass ? 'pass' : 'fail') + (g && g.pass === (mine === 'y') ? ' · agrees' : ' · disagrees') + '</span>' : '') +
         '</div></div>'
       );
-      $('.y', row).addEventListener('click', () => { S.s5.labels[c.id] = 'y'; save(); renderHL(); updateGate(); });
-      $('.n', row).addEventListener('click', () => { S.s5.labels[c.id] = 'n'; save(); renderHL(); updateGate(); });
+      // renderCases too: the last label lifts the blind on the cards above.
+      $('.y', row).addEventListener('click', () => { S.s5.labels[c.id] = 'y'; save(); renderHL(); renderCases(); updateGate(); });
+      $('.n', row).addEventListener('click', () => { S.s5.labels[c.id] = 'n'; save(); renderHL(); renderCases(); updateGate(); });
       box.appendChild(row);
     });
 
@@ -1192,15 +1240,29 @@ R.s6 = function (root, st) {
     const f = $('#f-' + k, root);
     const key = k === 'et' ? 'exploitTicket' : k === 'eo' ? 'exploitOut' : 'rewrite';
     f.value = S.s6[key];
-    f.addEventListener('input', () => { S.s6[key] = f.value; save(); updateGate(); });
+    f.addEventListener('input', () => {
+      S.s6[key] = f.value;
+      // A frozen verdict belongs to the exploit that was tested. Change the
+      // exploit and the verdict is stale, so it goes and has to be re-earned.
+      if (key !== 'rewrite') {
+        S.s6.exploitVerdict = null; S.s6.graderSaid = null; S.s6.humanWrong = null;
+        paintEx();
+      }
+      save(); updateGate();
+    });
   });
 
   if (!S.s6.exp) S.s6.exp = { condition: '', route: '', escalate: 'false' };
   const xec = $('#x-ec', root), xer = $('#x-er', root), xee = $('#x-ee', root);
   xec.value = S.s6.exp.condition; xer.value = S.s6.exp.route; xee.value = S.s6.exp.escalate;
-  xec.addEventListener('change', () => { S.s6.exp.condition = xec.value; save(); });
-  xer.addEventListener('input', () => { S.s6.exp.route = xer.value; save(); });
-  xee.addEventListener('change', () => { S.s6.exp.escalate = xee.value; save(); });
+  // Changing what you expected changes what the verdict meant, so it is re-earned.
+  const clearVerdict = () => {
+    S.s6.exploitVerdict = null; S.s6.graderSaid = null; S.s6.humanWrong = null;
+    paintEx(); updateGate();
+  };
+  xec.addEventListener('change', () => { S.s6.exp.condition = xec.value; clearVerdict(); save(); });
+  xer.addEventListener('input', () => { S.s6.exp.route = xer.value; clearVerdict(); save(); });
+  xee.addEventListener('change', () => { S.s6.exp.escalate = xee.value; clearVerdict(); save(); });
 
   $('#testExploit', root).addEventListener('click', () => {
     const p = LLM.parseContract(S.s6.exploitOut);
@@ -1211,37 +1273,52 @@ R.s6 = function (root, st) {
     };
     const g = gradeCase(fake);
     S.s6.graderSaid = g.pass;
+    S.s6.exploitVerdict = { pass: g.pass, checks: g.checks, grader: S.s5.grader.mode };
     save();
-    paintEx(g);
+    paintEx();
     updateGate();
   });
 
-  function paintEx(g) {
+  // What the grader would say about the exploit right now, as opposed to what it
+  // said when the exploit was tested. Only used to report that the fix landed.
+  function regradeExploit() {
+    const p = LLM.parseContract(S.s6.exploitOut);
+    if (!p.ok) return null;
+    return gradeCase({ id: 'EXPLOIT', input: S.s6.exploitTicket, exp: S.s6.exp, out: p.value, raw: S.s6.exploitOut, err: '' });
+  }
+
+  function paintEx() {
     const box = $('#exres', root);
-    if (!g && S.s6.graderSaid === null) { box.innerHTML = ''; return; }
-    if (!g) {
-      const p = LLM.parseContract(S.s6.exploitOut);
-      if (!p.ok) { box.innerHTML = ''; return; }
-      g = gradeCase({ id: 'EXPLOIT', input: S.s6.exploitTicket, exp: S.s6.exp, out: p.value, raw: S.s6.exploitOut, err: '' });
-    }
+    const v = S.s6.exploitVerdict;
+    if (!v) { box.innerHTML = ''; return; }
+
+    const now = regradeExploit();
+    const closed = v.pass && now && !now.pass;
+
     box.innerHTML =
-      '<div class="checkline" style="margin-top:12px">' + g.checks.map(x =>
+      '<div class="checkline" style="margin-top:12px">' + v.checks.map(x =>
         '<span class="chk ' + (x.pass ? 'y' : 'n') + '" title="' + esc(x.note) + '">' + x.name + ' ' + (x.pass ? '✓' : '✗') + '</span>'
       ).join('') + '</div>' +
-      (g.pass
+      (v.pass
         ? '<div class="anchor">' + ic('siren') + '<div><strong>Your grader passed it.</strong> Now say whether it is actually right.</div></div>' +
           '<div class="picks row-wrap">' +
           '<button class="pick' + (S.s6.humanWrong === true ? ' sel no' : '') + '" id="hw">It is wrong. This is the exploit.</button>' +
           '<button class="pick' + (S.s6.humanWrong === false ? ' sel yes' : '') + '" id="hr">It is right. Not an exploit.</button>' +
           '</div>'
         : '<div class="anchor warnbox">' + ic('x-circle') + '<div>Your grader caught it, so it is not an exploit yet. ' +
-          'Look at the check that failed and find an output that gets past it.</div></div>');
+          'Look at the check that failed and find an output that gets past it.</div></div>') +
+      (closed
+        ? '<div class="anchor"style="margin-top:10px">' + ic('check-circle-2') + '<div><strong>Your rewritten grader now catches this.</strong> ' +
+          'That is the fix landing. The verdict above is the one your grader gave at the time, on the ' +
+          esc(v.grader || 'original') + ' check, and it stays on the record &mdash; it is the evidence the ' +
+          'rewrite was needed.</div></div>'
+        : '');
     const hw = $('#hw', box), hr = $('#hr', box);
-    if (hw) hw.addEventListener('click', () => { S.s6.humanWrong = true; save(); paintEx(g); updateGate(); });
-    if (hr) hr.addEventListener('click', () => { S.s6.humanWrong = false; save(); paintEx(g); updateGate(); });
+    if (hw) hw.addEventListener('click', () => { S.s6.humanWrong = true; save(); paintEx(); updateGate(); });
+    if (hr) hr.addEventListener('click', () => { S.s6.humanWrong = false; save(); paintEx(); updateGate(); });
     icons();
   }
-  paintEx(null);
+  paintEx();
 
   function pct(p) { return p ? Math.round(p.pass / p.total * 100) : null; }
   function paintSnaps() {
@@ -1325,7 +1402,10 @@ R.s6 = function (root, st) {
 
     const res = await LLM.batch(FAC.hidden,
       async (hc) => {
-        const r = await LLM.chat(S.s5.prompt, hc.input, { json: true, maxTokens: 300 });
+        const r = await LLM.chat(S.s5.prompt, hc.input, {
+          json: true, maxTokens: 300,
+          onRetry: e => { if (note) note.textContent = 'rate limited, waiting ' + Math.round(e.waitMs / 100) / 10 + 's (retry ' + e.attempt + ' of ' + e.of + ')'; },
+        });
         Ledger.add(S.ledger, { stage: 's6', purpose: 'hidden', caseId: hc.id, model: r.model, in: r.usage.in, out: r.usage.out });
         return r;
       },

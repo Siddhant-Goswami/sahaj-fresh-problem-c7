@@ -21,6 +21,32 @@ const LLM = (() => {
 
   function ready() { return !!(cfg.key && cfg.model && PROVIDERS[cfg.provider]); }
 
+  /* ---- transient failures ----
+     A free-tier key has a tokens-per-minute ceiling, and a ten-case run sits
+     close to it. Without this the run comes back half empty and the stage gate
+     says "0 of 10 have output", which reads like a bad prompt. It is not.
+     ---------------------------------------------------------------- */
+
+  const RETRY_ON = [429, 500, 502, 503, 529];
+  const MAX_RETRIES = 4;
+
+  const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+  function retryWaitMs(res, msg, attempt) {
+    const hdr = res.headers && res.headers.get ? res.headers.get('retry-after') : null;
+    const fromHeader = hdr ? parseFloat(hdr) : NaN;
+    if (!isNaN(fromHeader)) return Math.min(fromHeader * 1000, 30000);
+    // Groq states the wait in the body: "Please try again in 1.23s"
+    const m = /try again in\s+([\d.]+)\s*(ms|m|s)?/i.exec(msg || '');
+    if (m) {
+      const v = parseFloat(m[1]);
+      const unit = (m[2] || 's').toLowerCase();
+      const ms = unit === 'ms' ? v : unit === 'm' ? v * 60000 : v * 1000;
+      return Math.min(ms + 250, 30000);
+    }
+    return Math.min(1000 * Math.pow(2, attempt), 8000);
+  }
+
   /* ---- one call ---- */
 
   async function chat(system, user, opts) {
@@ -66,7 +92,23 @@ const LLM = (() => {
         return chat(system, user, Object.assign({}, opts, { json: false }));
       }
       if (res.status === 401 || res.status === 403) throw new Error('Key rejected by ' + def.label + ' (' + res.status + '). ' + msg);
-      if (res.status === 429) throw new Error('Rate limited by ' + def.label + '. Wait and run again. ' + msg);
+
+      const attempt = opts._attempt || 0;
+      if (RETRY_ON.indexOf(res.status) !== -1 && attempt < MAX_RETRIES) {
+        // Jitter, or every call in the batch wakes up and collides again.
+        const wait = retryWaitMs(res, msg, attempt) + Math.floor(Math.random() * 400);
+        if (opts.onRetry) opts.onRetry({ attempt: attempt + 1, of: MAX_RETRIES, waitMs: wait, status: res.status });
+        await sleep(wait);
+        return chat(system, user, Object.assign({}, opts, { _attempt: attempt + 1 }));
+      }
+
+      if (res.status === 429) {
+        throw new Error(
+          'Rate limited by ' + def.label + ', still limited after ' + MAX_RETRIES + ' retries. This is the ' +
+          'provider\'s tokens-per-minute ceiling, not your prompt. Shorten the system prompt, pick a smaller ' +
+          'model, or wait a minute and run again. ' + msg
+        );
+      }
       throw new Error(def.label + ' returned ' + res.status + '. ' + msg);
     }
 
