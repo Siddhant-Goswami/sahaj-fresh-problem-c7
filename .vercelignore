@@ -1,0 +1,12 @@
+# Vercel's CLI does NOT read .gitignore when uploading, so the facilitator
+# plaintext has to be excluded here as well. Without this line the hidden
+# eval set is served as a static file and stops measuring anything.
+.facilitator-src/
+
+# Build-time only, not needed by the deployed site.
+build-corpus.js
+build-fac.js
+
+.DS_Store
+node_modules/
+.env*
