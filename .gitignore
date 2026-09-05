@@ -1,0 +1,7 @@
+# The facilitator pack's plaintext source. The repo ships only the
+# enciphered blob inside js/data.js. Keep this file out of the repo.
+.facilitator-src/
+
+.DS_Store
+node_modules/
+.vercel
