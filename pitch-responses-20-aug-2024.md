@@ -2,7 +2,7 @@
 
 **Speaking:** Rohit Vaidyanathan, Managing Director
 **Date:** 20 August 2024, evening
-**Context:** Four proposals heard back to back. My position on the packaging changed earlier today
+**Context:** Five proposals heard back to back. My position on the packaging changed earlier today
 and has not changed back — see the third round of the answers document. I am no longer defending
 memo 17 as a complete explanation, so none of you has to spend your two minutes convincing me that
 Pune is a problem. I know it is.
@@ -359,13 +359,178 @@ that, somebody in that room will.
 
 ---
 
+## Saksham
+
+> *"We invoke Annexure D of your existing Nirvath contract. For just Rs 310 per vehicle per month,
+> we shorten the polling interval to 5 minutes… Second, the churn interceptor… our system acts like
+> your Indore supervisor — it instantly drafts a highly personalized 'two-weeks-free' save-offer,
+> acknowledging the cooling issue is fixed, and routes it to the local Hub Manager's Slack for a
+> one-click approval."*
+
+### What is right about it
+
+**You are the only person tonight who brought me a price.** Four people diagnosed the detection
+failure and every one of them asked me for time to investigate it further. You went and found
+Annexure D, which is the out-of-scope rate card at the back of a statement of work that I signed
+and had never read to the end, and you came back with a number. Vinay is bringing me that same page
+tomorrow morning. You beat my VP of Operations to it by about fourteen hours.
+
+Let me finish the arithmetic you started, because you quoted me a unit rate and the total is the
+part that matters. Forty-two vehicles in scope — twenty at Nashik, twenty-two at Indore. At Rs 310
+per vehicle per month that is **Rs 1,56,240 a year**. The telematics changeover was booked into the
+cost programme at a saving of Rs 68 lakh. So closing the gap costs **about two and a third per cent
+of the saving that created it.**
+
+That number ends the argument, and it is going in front of the Board in that form.
+
+You also refused the pitch-deck roadmap and said so out loud. Noted, and it is the second time
+today somebody has told me what they were *not* going to sell me. I have started to find it
+persuasive.
+
+### My objections to part one — the polling change
+
+**One. "Instantly closes the detection gap and stops warm milk from reaching the door" is not true,
+and I can now show you why with your own arithmetic.**
+
+The rule is not just the polling interval. Clause 3.2 defines an excursion as product above eight
+degrees **sustained beyond twenty continuous minutes**. That twenty minutes is in our own document
+and no contract variation shortens it. So the floor on detection is twenty minutes plus whatever it
+takes to confirm it plus one polling cycle to raise it.
+
+Take the 9 June trip. Compressor tripped at 04:07. First recorded reading above band 04:15. Alert
+04:48 — forty-one minutes. Now run it at five-minute polling: you would catch the crossing around
+04:10 to 04:12, you could confirm twenty continuous minutes at about 04:35, and you would alert
+inside one cycle, so about 04:40. That is thirty-three minutes instead of forty-one. Real, worth
+having, and **not instant**. Sixty-second polling, at Rs 940 per vehicle per month, gets you to
+roughly twenty-eight minutes for Rs 4.74 lakh a year.
+
+Now put that against the operation. That van left the hub at 04:12 and delivery on that route
+starts at 04:35. A perfect alert at 04:33 reaches a rider who is about to make his first drop; an
+alert at 04:40 reaches one who has already made two or three. Clause 7.1 protects the crates still
+on the van. It does nothing for the ones already at doorsteps.
+
+So buy the variation — I am buying it — but do not sell it to me as stopping warm curd at the door.
+It buys eight to ten minutes and it brings us into compliance with a clause we have been in breach
+of since March. Those are both good reasons. The one you gave me is not accurate, and it is the
+kind of inaccuracy that gets found.
+
+**Two. You picked five minutes and did not show me why.** Both options are on that rate card. Five
+minutes satisfies clause 6.3 on my arithmetic; sixty seconds satisfies it with room to spare and
+costs Rs 3.2 lakh a year more. That is a real trade and it is mine to make, not yours to make
+silently. Come back with both, with the detection number each one produces, and let me choose.
+
+**Three. "Without a new Board budget" is true and it is not the whole truth.** Correct: Vinay holds
+authority under Resolution 31/06 to vary contracts up to Rs 75 lakh a year, so nobody needs Board
+approval to execute this. But the Rs 1.82 crore has already been reported to the Board as delivered
+and is going to the Q3 meeting as a closed item with a recommendation that the team be recognised.
+This variation does not need new money. It needs me to stand up and say the number I gave them was
+worth less than I said.
+
+I have already decided to do that. But you framed as costless a thing whose actual cost is the one
+that hurts, and I would rather hear that named by the person pitching it than have Nandita Rao find
+it in the data room.
+
+**Four. Your manual test cannot work as designed.** "Upgrade one Indore van's telemetry for Rs 310
+to prove the detection works." One van, one week. In four months across forty-two vehicles I have
+exactly one recorded excursion. The overwhelmingly likely result of your test is that nothing
+happens on that van all week and you learn nothing at all.
+
+Do not wait for a real excursion. Induce one. Park a van, let the compartment come up out of band,
+and time the dashboard from first breach to alert on the current configuration and then on the
+five-minute one. That is an afternoon, it costs nothing but a technician, it produces the actual
+number, and it does not depend on a chiller happening to fail while you are watching.
+
+### My objections to part two — the churn interceptor
+
+Here I get off, and I want to be precise about where, because the underlying observation is
+correct and it is only the product that I am refusing.
+
+**One. It would tell customers something I do not believe.** The draft "acknowledges the cooling
+issue is fixed." I said this afternoon that I expect the 31 August re-baseline to miss. So you are
+proposing an automated system that writes to Tier 2 subscribers, in my company's name, asserting a
+fix that the Managing Director does not think has worked. Multiply that by the volume you are
+targeting and I am putting a claim I cannot stand behind in front of several thousand people, in
+writing, four weeks before a data room opens.
+
+Nothing this system builds goes to a customer stating a cause. That is not a preference. That is a
+line.
+
+**Two. It offers money, automatically, and nobody has costed it.** Two weeks free is a revenue
+decision. Harish's version was one supervisor's judgement at one society on one morning, and he
+took it to the committee himself. Yours fires on every Tier 2 cancellation. We had one thousand one
+hundred and sixty-five of those in a quarter. Tell me what two weeks free costs at that volume
+before you tell me it has one-click approval.
+
+**Three, and this is the one that decides it. You are intercepting at the wrong moment.** Your
+system fires when a customer complains or hits cancel. By cancel it is over — I said this morning
+that a subscriber who has had sour curd twice does not come back because of a discount, and I
+meant it.
+
+At Kesar Nandanvan they complained on 2 July, 5 July, 9 July and 12 July, and cancelled on 15 July.
+Your interceptor would have sent four save-offers to four flats and then thirty-four cancellations
+would have happened anyway, because the society committee was not deciding about four refunds. It
+was deciding about curd.
+
+The moment worth intercepting is the **second complaint on the same route on the same day**, and the
+person to intercept it is Harish, not the customer. Give him 2 July and he has thirteen days to go
+and stand at that gate with a probe. He did exactly that when he finally found out on the 15th. He
+was thirteen days late and he got there through a society secretary rather than through anything we
+built.
+
+**Four. We do not run Slack in hub operations.** Our hub managers work off phones and printed
+manifests — during the August outage, the entire company fell back to paper and the incident was
+detected by a rider messaging a supervisor from his personal handset. Routing to a Slack channel is
+an assumption about our stack that nobody checked. Ask before you design the last mile of a
+workflow.
+
+**Five, and this is to your credit.** "The cancellation verbatims that your team is currently
+ignoring" is fair and it stung, and it is exactly right — they have been unread since April and the
+action to read them was due on the fifteenth. But notice that the fix for nobody reading them might
+be one person reading them, which is Aparna's overdue action and costs nothing. Do not sell me
+software for a job whose first version is a person and a spreadsheet. If you propose the software
+version, show me why the person version is not enough.
+
+### Verdict: **Part one, yes. Part two, no as designed.**
+
+**Part one — approved.** Vinay executes the Annexure D variation. Bring me both options priced, five
+minutes and sixty seconds, with the detection number each produces, and I will pick on Tuesday. Run
+your induced-breach test first so we have a before number to compare against; there is no point
+buying it and then having nothing to prove it worked. And it goes in as a measured change, not as a
+declaration of victory.
+
+**Part two — no.** Not "come back with a smaller version" — no to the thing you described. No
+automated message to a customer, no automated offer of money, no system stating a cause on our
+behalf.
+
+Here is what I would say yes to, and it is most of your machinery pointed at a different target.
+Read the same tickets. Classify what the customer actually said — warm, sour, watery, or something
+else entirely — and pull out the route. Cluster by route and day. When a route shows two or more in
+a morning, put that in front of the hub manager for that hub, with the ticket numbers, before nine
+o'clock. He decides what happens next, including whether anybody is offered anything, and every
+rupee and every customer conversation stays with a human being exactly where it is today.
+
+That is Dev's second half, it is the failure I have the most evidence for, and you have already
+built most of what it needs. Point it at Harish instead of at the customer and bring it back to me
+with a cost per month at thirty tickets a day, and what that cost does if Tier 2 doubles.
+
+**One more thing, about your data room paragraph.** "An automated retention tripwire that is
+actively recovering our Tier 2 subscribers." In September, three weeks in, with a subscription cycle
+of lag, that sentence will not be true and it is precisely the sentence a diligence team tests. Say
+the true one instead: we found a detection failure in our own contract, here is the date, here is
+what it cost to close, here is the detection number before and after, and here is what we changed
+about how complaints reach a hub. That paragraph is stronger because every clause of it can be
+checked, and I will not have to defend a word of it.
+
+---
+
 ## What happens Monday
 
 | # | Who | What | By |
 |---|---|---|---|
 | 1 | TJ | Indore against Indore, May–July versus the four weeks since 22 July. Nashik the same. Category A returns per despatched unit. | Mon evening |
 | 2 | Mayur | Nirvath and Sarathi device configurations side by side, both fleets, on paper. Then what it would take to measure detection latency going forward. | Mon evening |
-| 3 | Vinay Kulkarni | Annexure D price to shorten the sensor polling interval across the 42 vehicles in scope. | Tue morning |
+| 3 | Vinay Kulkarni | Annexure D variation, both options priced — 5 minute at Rs 1.56 lakh a year and 60 second at Rs 4.74 lakh — with the detection number each produces. I choose Tuesday. | Tue morning |
+| 3a | Saksham | Induced-breach test on a stationary van: first breach to alert, current configuration. Gives us the before number. | Mon afternoon |
 | 4 | Dev Sharma | The missing half of his own pitch: what he would test, the two numbers, what it costs to find out and what it costs to run. | Mon, with 1 and 2 |
 | 5 | Deepak | Revised pilot per the above, gated on 1, 2 and 3. | Wed |
 | 6 | Meghana Iyer | Whether the 31 August re-baseline can still separate the film reversion from anything else we change this month. If it cannot, tell me now. | Fri |
