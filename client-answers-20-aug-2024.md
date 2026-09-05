@@ -635,6 +635,195 @@ as Rs 68 lakh.
 
 ---
 
+# Fourth round of questions
+
+*These came in after I had conceded the position above. I am answering them as the person who
+conceded it, not as the person who spent this morning defending memo 17. Some of the answers
+therefore differ from what I would have told you six hours ago, and I have said where.*
+
+---
+
+## "What are the main reasons for the cancellations in these two cities?"
+
+The coded reason is product condition — 68 per cent of Tier 2 cancellations against 19 per cent in
+Bengaluru. That much I told you this morning and it has not changed.
+
+What has changed is my explanation of it. This morning I told you the reason underneath the code
+was the packaging film. I no longer believe that is the whole of it, and I am not sure it is the
+main part of it. What I now think the reason is: curd is arriving at the door out of temperature
+on the early Tier 2 routes, the instrumentation we bought for those two cities cannot raise an
+alert in time to stop the van, and each complaint is refunded and closed one at a time so the
+pattern on a route is never assembled. The customer experiences that as bad curd twice and leaves.
+
+And the honest caveat on the whole answer: the free-text reason each leaving subscriber wrote is
+still unread. It was due to be sampled on 15 August. So the most direct evidence of why people are
+cancelling — them saying why — is the one source nobody in this company has opened.
+
+---
+
+## "Are you adopting any AI in your day-to-day logistics?"
+
+None. Not a pilot, not a proof of concept, not a vendor trial.
+
+To be concrete about what we do run, so you are not guessing: a dispatch platform under licence, a
+rider mobile application for manifests and proof of delivery, a telematics dashboard from the
+vendor, and a support ticketing system with disposition codes. Route planning is a supervisor with
+a spreadsheet — 275 drops planned across four Indore routes on a given morning, vehicles assigned
+by hand, absences covered by overtime. Threshold alerting on the dashboard is a fixed number, 8
+degrees, configured per vehicle class.
+
+There is nothing in that list that learns anything, and I would rather tell you that plainly than
+dress up a threshold as an algorithm.
+
+The nearest thing to inference in this company this year was a support lead reading three tickets
+and concluding it was the season. He was working from four data points and a memory of Pune two
+summers ago. He was wrong, he documented his reasoning, and nothing in our systems was capable of
+telling him he was wrong.
+
+---
+
+## "What is your current customer marketing strategy?"
+
+Acquisition, and until three weeks ago that was the entire strategy.
+
+The shape of it: paid acquisition into a subscription, priced to get the first crate through the
+door, on the assumption that a daily dairy delivery becomes a habit and habits do not churn. In
+Q2 that bought 3,180 gross adds in Nashik and 2,940 in Indore.
+
+We lost 604 of the Nashik ones and 561 of the Indore ones inside the same quarter. Aparna Nadig's
+phrase at the Q2 review was that we are acquiring into a leaking bucket, and on that basis we cut
+paid acquisition in both Tier 2 cities by 60 per cent from 1 August.
+
+So the current strategy, stated honestly, is: we have stopped buying subscribers in the two cities
+where we cannot keep them, and we have not replaced that with anything. There is no retention
+programme, no win-back, no lifecycle contact, nothing that runs when somebody cancels. I described
+it earlier today as a silent exit and that is exactly what it is. Marketing in this company means
+the top of the funnel and nothing below it.
+
+---
+
+## "How structured is your logistics strategy and partnership?"
+
+Structured on paper. Fragmented in procurement. That distinction is the whole of my answer.
+
+**On paper.** One cold chain SOP, SOP-CC-004, version 4.0, effective 8 January. Clause 2.2 puts
+every vehicle in scope whether owned, leased or third-party operated, and every city hub including
+hubs commissioned after that date — which was written precisely so that Nashik and Indore would be
+covered before they opened. Chilled band 2 to 8 degrees. Defined excursion, defined detection
+obligation, defined disposal, defined escalation, defined record retention. It is a good document.
+Meghana wrote it and it anticipated the expansion.
+
+**In procurement.** Five hubs, and the instrumentation under that single SOP was bought city by
+city by whoever was negotiating in that year, against a Board mandate to take cost out. Bengaluru
+and Pune sit with the incumbent, Sarathi, at Rs 1.10 crore. Nashik and Indore sit with Nirvath at
+Rs 42 lakh on a 36-month term from March, 42 vehicles, terminable for convenience after month 18
+on ninety days' notice with the unamortised hardware payable.
+
+Two different vendors, two different devices, two different configurations, one rulebook, and
+nobody whose job it was to check the second one against the rulebook before signing.
+
+And the thing I noticed this evening reading the service levels, which I am fairly sure nobody has
+said out loud in this company: what we bought service levels on is dashboard availability, 99 per
+cent monthly, and hardware replacement within five working days. There is no service level on
+detection. Nothing in that contract obliges anybody to tell us a van is warm within any particular
+time. The remedy for a breach of the availability SLA is service credits capped at 5 per cent of
+the quarterly charge, and clause 4.3 makes that our sole financial remedy.
+
+We contracted for uptime. The SOP requires detection. Those are not the same product and we bought
+the wrong one.
+
+---
+
+## "What is the level of your customer satisfaction, and have you had feedback on it?"
+
+We do not measure satisfaction. There is no survey, no score, no NPS, nothing that asks a
+subscriber how it is going while they are still a subscriber.
+
+What we have instead are three things, and all three are lagging and all three are self-selecting:
+complaints from people who called, cancellations from people who left, and a reason code captured
+on the way out.
+
+The feedback we do have is worth reading precisely because it tells you how bad the instrument is.
+One subscriber told us it was the second time that month and that she had not complained the first
+time. Another told us three houses in his building had the same thing the previous day, and when
+the agent checked, one of those three was in our system — and that one had been closed as no fault
+found because the customer accepted a replacement. A society in Indore complained four times, all
+four were refunded and closed at the desk, none reached the hub manager, and the next thing we
+heard was the committee cancelling 34 subscriptions in one meeting.
+
+So: the complaint count is a floor, not a measurement. The only satisfaction instrument this
+company owns is people leaving, and by the time it reads, it has already read.
+
+---
+
+## "What is the condition and the level of your Quality Control department?"
+
+Better than the rest of the company, and I want to say that clearly before I criticise the scope of
+it.
+
+Priyanka Deshmukh runs QA under Meghana Iyer, with a lab in Bengaluru. When the Tier 2 return rate
+moved she drew samples from the new film lot and from retained old stock, ran conditioned seal peel
+and drop tests against internal methods, and produced a memo with the numbers in it and the method
+named. She then wrote, in her own memo, that the inbound acceptance protocol had no conditioned
+seal test in it, that this was a gap, and — her words — that the gap is hers and she is owning it.
+
+That is the standard I want everywhere in this business and do not have.
+
+The criticism is not of the department, it is of its remit. QA's scope is the product and the
+packaging. Section 6 of that memo is headed "not investigated further" and it records that cold
+room temperatures at both Tier 2 hubs were pulled and were within band. She checked what was hers
+to check and she checked it properly. Nobody in this company has the equivalent remit for the cold
+chain in transit — for whether the instrumentation between the cold room and the doorstep is
+capable of seeing what the SOP says it must see. Meghana owns the SOP. Vinay owns the contract.
+Nobody owned the question of whether the second satisfies the first, which is exactly why that
+incident action sat unassigned from June to today.
+
+---
+
+## "Is your packaging verified and up to the mark?"
+
+It is verified now. It was not verified properly when we changed it, and I want to give you the
+sequence rather than a yes or a no, because the answer has become genuinely awkward in the last few
+hours.
+
+**What we did wrong in February.** We moved Category A pouch film from Sanchit to Nivaan under
+procurement rationalisation, 65 micron down to 55. The specification was accepted on Nivaan's
+declared burst strength, which is marginally better than Sanchit's despite the thinner gauge — 226
+kPa against 218. That acceptance was based on a supplier certificate at ambient. Nobody conditioned
+a sample, because the acceptance protocol did not require it.
+
+**What the lab found in May.** At ambient the Nivaan film is inside specification. Conditioned four
+hours at 40 degrees it is not, on two of five measures: seal peel 14.2 newtons per 15mm against a
+specification of 18, and 6 failures in 20 on the drop test against a limit of 1 in 20. Those are
+real results and I am not going to wave them away.
+
+**What we are doing.** Reverting Tier 2 supply to 65 micron, Rs 0.34 a pouch, about Rs 5.7 lakh a
+year on Tier 2 volume. Purchase order placed 4 June, first despatch week of 22 July. And adding a
+40 degree conditioned seal test to inbound acceptance for all flexible packaging, which is
+Priyanka's fix to the protocol.
+
+**And here is the part I did not see until today.** We decided to keep 55 micron at Bengaluru,
+Bengaluru two and Pune, on the argument that the validated climate envelope holds in those cities.
+That decision preserves roughly 70 per cent of the packaging saving.
+
+Pune touched 41 degrees in May. Pune is on 55 micron film. Pune returned 0.2 per cent.
+
+So the field contradicts the lab, and both are correct. The film genuinely fails a conditioned test
+at 40 degrees, and a city that runs at 41 degrees on that same film has no problem at all. The only
+way both of those are true is that something other than the film is deciding whether a customer
+gets bad curd, and Pune has it and the Tier 2 hubs do not.
+
+I am not cancelling the film reversion. The test results stand and a thicker film is the right
+specification regardless. But I have been telling this Board, and told you this morning, that the
+film is the cause of a 19 per cent cancellation rate, and I no longer think a Rs 5.7 lakh packaging
+change is going to fix it. If I am right about that, then on 31 August the return rate will not
+come under 0.5 per cent, memo 17 reopens, and we will have spent three months on the wrong
+correction while the actual one sat in an unassigned action item.
+
+I would rather find that out from you now than from the number on the 31st.
+
+---
+
 *Rohit Vaidyanathan*
 *Managing Director, 20 August 2024*
 *Signed on paper. Vinay and Meghana to see this before it goes anywhere near the data room.*
