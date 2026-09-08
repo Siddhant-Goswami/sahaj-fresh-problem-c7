@@ -822,6 +822,351 @@ correction while the actual one sat in an unassigned action item.
 
 I would rather find that out from you now than from the number on the 31st.
 
+# Fifth round of questions
+
+*Same day, late. These five came in after I had signed the section above, and four of them are
+questions I should have been asked by my own Board in June. I am answering them as the point of
+contact for this engagement, which from today is me and not Vinay, because every one of these
+crosses a line between two of my directors and that is exactly where everything in this company
+has been getting lost.*
+
+*Where I am giving you a number, it is a number that exists in a document I have read. Where I am
+giving you a date, it is a commitment with a name against it. Where I have neither, I say so.*
+
+---
+
+## "INC-2291 flagged a 41-minute gap between the compressor fault and the dashboard's excursion alert; the vendor closed it 'no fault found,' and the action to explain it was still open and unassigned as of the last review on record. Has anyone traced that gap since, and is similar detection latency still occurring on NSK-1/IND-1 routes?"
+
+**Has anyone traced it: no.** Not between 9 June and this session. Action 4 on that incident record
+reads "detection gap at section 4: obtain explanation," owner unassigned, and it was still
+unassigned when I sat down with you this morning — through the IND-1 weekly review on 14 June,
+again on 21 June, and through the closure of the incident itself on 24 June. Seventy-two days. The
+man who raised it wrote that he was recording it there because he did not know which document it
+belonged against, and he was right, because there is no document in this company that it belongs
+against.
+
+It has an owner as of today. Vinay Kulkarni fixes it, Meghana Iyer reports the number, and I have
+split it that way deliberately because Vinay negotiated the contract that I now think caused it.
+
+**What we know about the 41 minutes.** The vendor's answer was that the device was operating within
+specification for this account, no transmission gaps, no faults. I now believe that answer was
+true. Annexure B6 of the Nirvath SOW sets the sensor polling interval at 15 minutes. Clause 3.2 of
+our own SOP defines an excursion as above 8 degrees sustained beyond 20 continuous minutes. Three
+readings at 15-minute spacing are needed before the dashboard is entitled to declare 20 continuous
+minutes of anything, and three readings is 30 minutes.
+
+Put INC-2291 against that. Onset in the chiller's own fault memory is 04:07. The compartment was
+next read at 04:15 and was already at 8.6 degrees, then 10.9 at 04:30, then 12.3 at 04:45 — three
+consecutive readings, the earliest moment the duration test can be satisfied — and the alert was
+raised at 04:48. Eight minutes of the compartment warming before anybody looked at it, thirty
+minutes of waiting for enough readings to be allowed to call it, three minutes of dashboard. That
+is the 41 minutes, in full, and every one of those minutes is the specification working.
+
+So the 41 minutes is not an anomaly and there is nothing for the vendor to explain. It is the
+contract performing to specification against an SOP it was never checked against. Harish asked the
+vendor whether the device was broken. Nobody asked whether what we bought could satisfy the rule we
+wrote.
+
+**Is it still happening: almost certainly, and I cannot prove it to you, and the reason I cannot is
+the finding.** A late alert leaves a record. An alert that never fires leaves nothing — no
+excursion log under clause 6.5, no disposal under 7.1, no wastage entry under 7.3, no incident
+under 8.2. The only trips in our system with both an onset time and a detection time are trips
+where the compressor died hard enough to leave a fault memory in the workshop and a supervisor
+went and looked. That is one trip in five months. Our detection-latency dataset has a sample size
+of one because the failure mode deletes its own evidence.
+
+Nothing has changed on those two fleets since June. Same 42 vehicles, same devices, same 15-minute
+interval, same thresholds. The battery audit in June replaced six units at Indore and four at
+Nashik, which fixes a cause of excursions and does nothing whatever to detection. So my answer is:
+yes, structurally, on every out-of-band trip at NSK-1 and IND-1 since those hubs opened in April.
+
+**What I have asked for, and the dates.** The dashboard holds readings for thirteen months rolling,
+so the raw material exists for the entire life of both hubs and has never been queried for this.
+Meghana's team is to produce, by **Friday 23 August**, for every trip at NSK-1 and IND-1 since
+8 April: the time of the first above-band reading, the time of the excursion alert if one was
+raised, and the count of trips carrying three or more consecutive above-band readings where no
+alert was raised at all. That last count is the number I actually want and the one nobody has ever
+seen. The same query is to be run against BLR-1, BLR-2 and PNQ-1 so there is a comparison.
+
+Two things I want verified rather than assumed, and I said this to Sats earlier: that the
+dashboard's duration logic counts continuous breach across received readings and cannot
+interpolate between them, and whether the retry behaviour at Annexure B10 — non-2xx retried at 5
+and 20 minutes — stretches the gap further in practice. Tarun Sethi's post-mortem on the August
+outage records that the feed arrives batched rather than streamed, which he found on 14 August,
+wrote down, and explicitly marked as not an action item. It is one now.
+
+---
+
+## "Pune hit 40–41°C in May and runs hot every year, yet held 0.2–0.3% Category A returns all quarter, while Indore ran 1.9–2.6% over the same months. What's different about Pune's cold chain, route start times, crate-staging practice, or packaging batch that Nashik/Indore don't have?"
+
+This is the question that broke my position today, so let me take your four candidates one at a
+time and tell you which of them I can answer and which I cannot.
+
+**Packaging batch.** Nothing is different, and this is the fact that ends memo 17 as a complete
+explanation. Pune is on the same 55-micron Nivaan film under the same national contract. We kept
+55 micron at Bengaluru, Bengaluru two and Pune deliberately, to preserve about 70 per cent of the
+packaging saving, on the argument that the validated climate envelope holds in those cities. Pune
+touched 41 degrees on 26 May. Pune returned 0.2 per cent in May. The lab result is real — seal peel
+14.2 newtons against a specification of 18 after four hours conditioned at 40 degrees — and it does
+not predict Pune. Both things are true, which means something other than the film decides whether a
+customer gets bad curd.
+
+The one caveat I will not paper over: "same national contract" is a statement from a procurement
+schedule, not a verified fact at the hub. Nobody has read the lot codes off pouches actually
+delivered at PNQ-1. Priyanka can do that in a morning and it is worth doing before we build
+anything on the assumption.
+
+**Crate staging.** Nothing is different, and we know because we asked. Harish rang Digvijay
+Ghorpade at PNQ-1 on 18 July specifically to find out what Pune does about staging in the hot
+months. Digvijay said they do nothing special. That answer is more damaging than it looks, because
+crate staging was the theory Joseph Mathai wrote up at Nashik in April — vans in the sun at society
+gates, riders doing four floors on foot, Pune solved it two summers ago with stairwell staging —
+and the whole of our April response was a rider briefing issued on that theory. The man in Pune
+says the thing that theory says he does was never done.
+
+**Route start times.** I do not have Pune's. That is an honest gap and it is embarrassing at this
+stage of the conversation. What I have is Indore: vans departing between 04:05 and 04:22, delivery
+on IND-A starting about 04:35, and Nashik departing about 04:50 on the trip in the April ticket.
+Vinay is getting me PNQ-1 despatch and first-drop times for the same period, with vehicle class and
+route lengths, by **Monday 26 August**. If Pune departs later, into daylight and warmer ambient,
+and still returns 0.2 per cent, that closes off the early-route explanation entirely.
+
+**Cold chain — and this is the one I would put your money on.** Clause 2.3 of the Nirvath SOW puts
+Bengaluru and Pune expressly out of scope: no supply, no retrofit, no migration, no data services.
+Pune is still on the incumbent, Sarathi, inside the Rs 1.10 crore arrangement. Different vendor,
+different device, different polling behaviour, same SOP over the top of both, and only one of the
+two was ever checked against it. When a Bengaluru supervisor tells you a warm compartment appears
+on screen while he is still looking at it, he is describing the fleet we did not change.
+
+Here is the mechanism I think you are looking at, and I want to state it as a hypothesis with a
+test attached rather than as a finding, because I have been wrong once today already.
+
+A Category A return is a doorstep refusal. It is what happens when warm curd reaches a customer.
+If Pune's instrumentation detects an excursion inside the SOP's window, the desk turns the van
+around under clause 7.1 and the crates come back and are destroyed. The failure lands in Pune's
+**wastage register**, not in Pune's return rate. At Indore, on a 15-minute interval, the alert
+never fires, the van completes the round, and the same failure lands at 275 doorsteps and comes
+back to us as returns, complaints, and a society committee cancelling 34 subscriptions in one
+meeting.
+
+If that is right, Pune and Indore may be suffering the same physical event at similar rates and
+booking it in two different ledgers — one of which I look at every month and one of which I have
+been quietly congratulating myself on.
+
+**The test, and I want it run before anybody writes a line of code.** Pull PNQ-1's excursion count
+and wastage register for May, June and July and set them against IND-1's for the same months. If
+Pune shows materially more confirmed excursions and more disposal than Indore while returning a
+tenth of the Category A returns, the difference between those two cities is detection and nothing
+else, and the entire case moves off packaging and onto the Rs 68 lakh line. If Pune shows neither —
+few excursions *and* few returns — then Pune's cold chain genuinely does not fail and there is a
+physical difference we have not found yet, and I would want you looking at fleet age, vehicle class
+and hub maturity next. Note that our June auxiliary-battery audit covered NSK-1 and IND-1 only.
+Nobody has ever audited Pune's, and Pune has been running since January 2022 with supervisors who
+have been through four summers.
+
+Meghana has that comparison, both hubs, by **Friday 23 August**. It is a query, not a project.
+
+---
+
+## "QA's 21 May memo says Category A returns are caused by the thinner Nivaan film failing above 40°C, 'closed pending' a revert to 65-micron film that was due to reach customers the week of 22 July. Can you send week-by-week Category A return rate and cancellation counts for NSK-1 and IND-1 from 22 July to today, split before/after the reverted film actually reached customers?"
+
+Yes, and I will send it. Meghana and Aparna jointly, to you by **Friday 23 August**. Before it
+arrives I want to tell you four things about it, because if I send you that series without them you
+will draw a conclusion from it that it cannot support.
+
+**One: I do not currently know the split date, and "week of 22 July" is not it.** That was the
+first despatch of reverted film from the supplier. What your question actually asks for is the date
+the first customer received a pouch in 65-micron film, which is despatch, plus transit, plus goods
+inward at the hub, plus whatever 55-micron stock was sitting in that hub and got used first,
+separately for Nashik and for Indore. Nobody recorded a changeover date. It is reconstructible —
+goods receipt notes at each hub and the lot code printed on the pouch — and that reconstruction is
+now Meghana's, with the same Friday date. Until it is done, any before-and-after split is a guess
+dressed as an analysis. If the two hubs turn over on different dates, and they very likely did, the
+series has to be split per hub, not for Tier 2 as a block.
+
+**Two: the return rate we report and the return rate you would compute from the field are not the
+same number.** Our monthly figure — Indore 1.9, 2.4, 2.6 per cent for May, June and July — is a
+unit-based rate. The daily supervisor report for 18 July shows 275 drops planned, 261 completed,
+14 returns of which 12 were Category A, which is 5.1 per cent of drops and about 4.4 per cent of
+drops for Category A alone. Those are different denominators, not a contradiction, and if I hand
+you a weekly series without fixing the denominator you will read a step change that is an artefact
+of arithmetic. The series will come with the denominator stated on it and will be built one way
+throughout.
+
+**Three: the count is biased downwards and I know by how much in kind, not in size.** A doorstep
+refusal is dispositioned DISP-07. Where the customer accepts a replacement and the desk concludes
+nothing was wrong, it is closed DISP-09, no fault found — and that is how ticket SF-NSK-118298 was
+closed on 22 April, which is why the third of the three houses in that Nashik building never
+appeared in the pattern. DISP-09 closures on Category A curd are the same event with a different
+label on it. You will get both series: DISP-07, and DISP-07 plus DISP-09-on-Category-A. The gap
+between the two lines is itself a finding.
+
+**Four, and this is the one that ruins the experiment: three changes land inside your window and
+only one of them is the film.** The film reversion reached customers somewhere in late July.
+Paid acquisition in both Tier 2 cities was cut by 60 per cent from 1 August, which changes the
+subscriber mix inside the window — fewer new joiners, and new joiners are not the ones who leave.
+And nothing at all has changed about detection, which is the variable I now think matters most.
+On the cancellation counts specifically, watch the date semantics: a cancellation is captured when
+requested and the subscription lapses at the end of the paid cycle. Kesar Nandanvan's committee
+decided on 15 July, effective from the August cycle. Those 34 households will appear in the August
+numbers, a fortnight after the film changed, and they will look for all the world like the fix
+failing. They were lost in June and July.
+
+This is why I told Shefali that 31 August has stopped being the date a question gets answered and
+become the date two questions get answered together. I would rather give you a series with the
+confounds written on the front of it than a clean-looking chart that persuades my Board of
+something false for a second time.
+
+---
+
+## "Multiple signals died at the point level instead of reaching a single owner — four Kesar Nandanvan complaints never escalated before 34 of 46 households cancelled; a repeat sour-curd complaint was closed 'no fault found' days before two more households reported the same thing. Who owns connecting a support ticket, a route supervisor's field note, and a QA finding into one picture today, and how is that actually done?"
+
+**Nobody owns it. There is no such role, no such meeting and no such system.** I argued the
+opposite with Sats this morning and I was wrong, so let me set out precisely what does exist,
+because the shape of the gap matters more than the admission.
+
+Every one of those signals has a home and a proper owner *within its own system*. A ticket belongs
+to the desk agent, who dispositions and closes it. A field note belongs to the route supervisor,
+who files it to his hub manager. An incident belongs to the raiser under SOP-QA-002. A QA finding
+belongs to Priyanka under Meghana. Each of those chains works. What does not exist is anything that
+reads across them.
+
+**How a signal actually travels today.** The agent refunds and closes. If she judges it needs a
+second pair of eyes it goes to her team lead; if he judges the same, it goes to the hub manager.
+That is judgement at two points, not a rule at either. Rukhsana Pathan asked her lead in writing on
+26 April whether to raise a third curd return in eight days to the hub or whether it was a known
+thing. Joseph Mathai answered that it was the season, told the hub manager there was nothing to
+action, and issued a rider briefing. He documented his reasoning honestly, he was working from four
+tickets and a memory of Pune two summers ago, and nothing in any system we own was capable of
+telling him he was wrong. In the same thread Rukhsana asked whether she should reopen 118298. There
+is no record that anybody answered her.
+
+**The only automatic joins we have are in the SOP, and both are downstream of the alert.** Clause
+8.1 escalates two confirmed excursions on one vehicle in seven days to Meghana. Clause 8.2 raises
+an incident where detection missed the 6.3 obligation. Both are keyed to a *confirmed excursion*.
+No alert, no confirmation, and neither rule ever fires. So the entire cross-signal wiring of this
+company sits behind the one mechanism that does not work, and it has therefore never fired at
+NSK-1 or IND-1.
+
+That is why Kesar Nandanvan looks the way it does. Four tickets on one route into one society
+across ten days — SF-IND-13288, 13341, 13402, 13455 — each refunded, each closed, none escalated,
+because no individual one of them met any threshold and there is no threshold that counts them
+together. The first time those four became a single fact was when the society secretary said it to
+a rider at the gate, and by then the committee had already voted. Harish went himself with a probe
+on 16 July and read 9.4 degrees at the gate at 06:20. He offered a two-week extension and a daily
+probe check, which was his own initiative and not policy, and he wrote that he did not expect to
+get 34 back.
+
+**What I am putting in place from today, and I am telling you this so you scope against what will
+exist rather than what did.**
+
+Meghana Iyer owns cross-signal review. Not Support, not Growth, not me — the SOP owner, because the
+question that has to get asked across those documents is whether the cold chain is doing what the
+SOP says, and she is the only person whose remit spans a ticket, a probe reading and a lab result.
+She chairs a standing weekly review of Tier 2 quality signals, first sitting **Friday 30 August**,
+with the desk, the two hub managers and Priyanka in the room, and it reads tickets, supervisor
+reports and incident actions as one pile.
+
+The escalation judgement comes out of the desk. Any cluster on one route, one society or one
+product inside seven days escalates to the hub manager automatically, and DISP-09 no-fault-found
+becomes unavailable on Category A curd without a hub manager's countersignature. I would rather
+over-escalate for a quarter and tighten it than leave a 22-year-old agent to decide alone whether
+three complaints are a pattern.
+
+Every unassigned action on an incident record gets an owner before that incident can be closed. INC-2291
+was closed with observation on 24 June with its most important action blank, and that must never be
+possible again.
+
+And Aparna Nadig reads the exit verbatims. That was her action from 11 July, due 15 August, five
+days overdue, and it is the single largest unread body of evidence in this business.
+
+I will say the obvious thing about all of that: it is four process changes and it is entirely
+manual. It depends on Meghana having time on a Friday and on a desk rule being followed. That is
+what I can do by myself in a fortnight. Whether the durable version of it is a system that assembles
+that picture without waiting for a meeting is a question for you, and it is the real question in
+this engagement.
+
+---
+
+## "What specifically is the Board pressing on — the raw cancellation numbers, the cost of the fix, recurrence risk in the next city launch, or something else — and what needs to be shown before Series B to close it?"
+
+Let me separate what the Board has actually pressed on to date from what it is going to press on at
+the Q3 meeting, because I am about to change the second one myself.
+
+**What they have pressed on so far is cost, and they were right the first time.** Nandita Rao, our
+nominee director from Kalpavriksha, looked at the recurring infrastructure schedule in February and
+said the telematics and tracking line looked heavy against comparable subscription grocery
+operations she had reviewed, and asked that it be examined specifically. That observation is what
+produced Resolution 31/05 and the Rs 1.8 crore mandate. She was right that the line was worth
+examining. Nobody, including me, asked what we would be giving up.
+
+Sameer Bhattacharya asked in the same meeting that the savings case come back with a line-by-line
+comparison **against the incumbent arrangements**. Five of the six lines were built that way. The
+telematics line — Rs 68 lakh, the largest single contributor — was built against the incumbent's
+quotation for an enlarged six-hub fleet that we never took up. Tarun Sethi asked at the Q2 review
+whether a saving measured against a quotation nobody accepted is a saving. Farida said the
+treatment was consistent and that Finance was comfortable. I said the Board had asked for a number
+and this was the number, and I moved the item on. So there is a director's instruction from
+February that the largest line does not satisfy, and it was going to the Q3 meeting as a closed
+item with a recommendation that the team be recognised for it.
+
+**The cancellation numbers have not been the pressure and that is about to change.** Q2 went to
+the Board for information, with quality's position recorded as understood and the fix in flight —
+memo 17, film reversion, re-baseline 31 August. That framing bought Q3 as a watch item rather than
+a crisis. It will not survive the 31st. Nashik 19.0 per cent of gross adds and Indore 19.1 against
+6.4 and 6.5 in the mature cities, climbing month on month — 61, 198, 345 at Nashik and 34, 172, 355
+at Indore — and I no longer believe a Rs 5.7 lakh packaging change reverses that.
+
+**So here is what I think the Board will actually press on, and it is your third option, sharpened.**
+Not "what did this cost" and not "how many left." It is: *the saving that funded the expansion may
+have bought the failure that is killing the expansion, and nobody costed the trade, and the same
+procurement pattern is queued up to do it again.* The six-hub quotation that our Rs 68 lakh was
+measured against tells you there is a sixth hub contemplated. If we open it on the Nirvath
+arrangement — which is a 36-month term from March, terminable for convenience only after month 18
+on ninety days' notice with unamortised hardware payable — we take the detection gap into the next
+city on day one, with the same SOP over the top and the same nobody checking the second against the
+first.
+
+That is the recurrence question and it is not really about telematics. It is that this company can
+buy an instrument, write a rule, and never check that the instrument satisfies the rule, and that
+the failure produces clean logs at every step. Cold room in band. Trip sheet signed. Wastage
+register empty. Vendor reports no fault found.
+
+**What has to be shown before the data room opens, and I would rather show it than be asked for it.**
+
+The gap quantified, not asserted — the count of trips at NSK-1 and IND-1 that ran out of band with
+no alert raised, and the count of Category A units that reached doorsteps out of band. I have asked
+for that number knowing it is the number that says how many customers we knowingly served warm
+dairy to and that it goes into a data room. I want it anyway. An issue we found and are fixing is a
+paragraph; the same issue found by a diligence team in our own incident records is a discount.
+
+The Rs 68 lakh restated. What Annexure D of that SOW charges to shorten the polling interval across
+42 vehicles — Vinay brings me that rate card tomorrow morning and I have not seen the page. If it
+is, say, Rs 15 lakh, then the honest saving was Rs 53 lakh, the programme was Rs 1.67 crore against
+a Rs 1.8 crore mandate, and I go back to the Board to tell them we missed. I would rather report a
+miss I understand than a beat I cannot defend. Vinay already holds authority to Rs 75 lakh a year
+per contract under Resolution 31/06, so if the answer is a contract variation I do not need the
+Board to do it — I only need them to know the number was worth less than I said.
+
+A named owner on every open item, with dates. Detection to Vinay, the number to Meghana, cross-signal
+review to Meghana, verbatims to Aparna, conditioned seal testing into inbound acceptance to Priyanka.
+
+And a control that stops it recurring: no city hub opens, and no instrumentation contract is
+executed, without a written conformance check of the equipment against SOP-CC-004 clauses 3.2 and
+6.3, signed by the SOP owner and not by the person negotiating the contract. One page. It would have
+cost nothing in March.
+
+Then a number that has moved, in the direction it should move, with the mechanism named. Not a
+roadmap. I said this morning that a chatbot in the data room gets a no, and that now extends to a
+strategy slide. What helps me in September is being able to say: we found a detection failure on
+this date, here is what it cost, here is what we changed, here is the number since. That paragraph
+is worth more than anything you could put on a slide, and it is the only thing on this list that I
+cannot write by myself.
+
+The wastage line will go up when detection starts working. I will defend that to the Board myself.
+A destroyed pouch of curd is tens of rupees. A cancelled subscription is a monthly bill I never see
+again, and at one society in Indore we lost 34 of them in a single committee meeting.
+
 ---
 
 *Rohit Vaidyanathan*
