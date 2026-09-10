@@ -1167,6 +1167,253 @@ The wastage line will go up when detection starts working. I will defend that to
 A destroyed pouch of curd is tens of rupees. A cancelled subscription is a monthly bill I never see
 again, and at one society in Indore we lost 34 of them in a single committee meeting.
 
+# Sixth round of questions — Munish
+
+*Munish has told me he built these by working backwards from the nine documents to the who, what,
+why and when, and it shows. Three of the five cover ground I have already been over today and I am
+answering them fresh rather than pointing him at an earlier section, because two of those answers
+got sharper in the intervening hours. The last one is a question nobody in this company has asked
+me all year, including me.*
+
+*One correction before I start, and it matters to his fifth question: paid acquisition in Nashik
+and Indore was cut by 60 per cent, not by half, with effect from 1 August.*
+
+---
+
+## Q1. "Pune gets just as hot as Indore in the summer, but Indore's seeing way more of these returns. What's different about how Pune runs?"
+
+Start with the numbers so we are arguing about the same thing. Pune touched 40 degrees on 22 and
+23 May and 41 on 26 May. Category A returns at PNQ-1: 0.2 per cent in May, 0.3 in June, 0.2 in
+July. Indore across the same three months: 1.9, 2.4, 2.6. Same national packaging contract, same
+55-micron film, ten to thirteen times the return rate.
+
+Four things are different about how Pune runs, and I can rank them by how much I trust the
+difference.
+
+**The instrumentation, and this is the one I would put money on.** Clause 2.3 of the Nirvath
+contract puts Bengaluru and Pune expressly out of scope — no supply, no retrofit, no migration.
+Pune is still on the incumbent, Sarathi. Different vendor, different device, different polling
+behaviour, one SOP written over the top of both, and only one of the two was ever checked against
+it. Our Bengaluru supervisors describe a warm compartment appearing on screen while they are still
+looking at it. Indore produced 41 minutes.
+
+Follow that through to why it would show up as *returns*. A Category A return is a doorstep
+refusal — it is the record of warm curd reaching a customer. If Pune's dashboard raises the
+excursion inside the SOP window, the desk turns the van around under clause 7.1, the crates come
+back, and the failure is recorded in the **wastage register**. If Indore's never raises it, the van
+finishes the round and the same failure is recorded at 275 doorsteps. Two cities can have the same
+physical problem at the same rate and book it in two different ledgers, and I have spent this year
+looking at only one of the two ledgers and feeling good about it.
+
+That is a hypothesis with a test attached, not a finding. The test: PNQ-1's confirmed excursion
+count and wastage register against IND-1's, May to July, side by side. If Pune is disposing of more
+and returning a tenth as much, the whole case moves off packaging and onto the Rs 68 lakh telematics
+line. If Pune shows neither excursions nor returns, then something physical is genuinely different
+and I would want you looking at fleet next. Meghana has that comparison by Friday 23 August. It is
+a query, not a project.
+
+**Hub maturity.** Pune has been running since January 2022 — four summers, the same supervisor,
+riders who know which societies take twenty minutes on foot. Nashik and Indore opened in April this
+year with routes planned by hand on a spreadsheet. Digvijay Ghorpade at Pune has not had a curd
+complaint escalated to him this year and checked his queue twice because he assumed Harish was
+asking about something else. Whatever Pune's people do that ours do not, it is not written down
+anywhere, which is its own finding.
+
+**Things I checked and that turned out not to be different.** Crate staging: Harish rang Pune on
+18 July specifically to find out what they do in the hot months and was told they do nothing
+special. That matters more than it sounds, because staging was the theory Nashik ran with in April
+— vans sitting in the sun while riders climb four floors, Pune solved it two summers ago — and our
+entire April response was a rider briefing issued on the strength of it. The man in Pune says the
+thing was never done. Packaging: same contract, same film, though I will admit that "same national
+contract" is a line in a procurement schedule and nobody has read the lot codes off pouches
+actually delivered in Pune. Priyanka can do that in a morning and it is worth doing.
+
+**Something I do not have and should.** Pune's route start times and vehicle classes. Indore's vans
+leave between 04:05 and 04:22 and IND-A starts dropping around 04:35. I cannot tell you Pune's.
+Vinay brings me PNQ-1 despatch and first-drop times by Monday 26 August. And one asymmetry worth
+naming: the June auxiliary-battery audit that found six out-of-life batteries at Indore and four at
+Nashik was run at the Tier 2 hubs only. Nobody has ever audited Pune's.
+
+---
+
+## Q2. "I saw a case where a customer said his neighbours had the same complaint, and it turned out one of those had already been logged and closed as 'no fault found.' Nobody connected the two. How does a repeat complaint like that get flagged before it's closed?"
+
+**It doesn't. There is no such flag.** No duplicate detection, no cluster rule, no prompt on the
+agent's screen, nothing that looks at the same building or the same route or the same product
+across two tickets. I want to be blunt about that because the case you found is worse than an
+absent feature.
+
+The two tickets are SF-NSK-118298, closed 22 April as DISP-09, no fault found, because that
+customer accepted a replacement — and SF-NSK-118331, opened 23 April, where the subscriber said
+three houses in his building had reported the same thing the previous day. The connection between
+them was made. It was made by Rukhsana Pathan, the desk agent, who went and checked the neighbours
+herself, found that one of the three was in the system, and wrote in an internal note: *should I
+reopen 118298?*
+
+There is no record that anybody answered her. Three days later she escalated a third curd ticket to
+her team lead and asked, in writing, whether to raise it to the hub or whether this was a known
+thing. He replied that it was the season, told the hub manager there was nothing to action, and
+issued a rider briefing.
+
+So the honest answer to "how does it get flagged" is: it got flagged, by a person, correctly, and
+the company had nowhere to put it. The escalation path has judgement at two points and a rule at
+neither — the agent decides whether to involve her lead, the lead decides whether to involve the
+hub. Joseph documented his reasoning openly and he was working from four tickets and a memory of
+Pune two summers ago. Nothing we own was capable of telling him he was wrong.
+
+And there is a ceiling on fixing this at the ticket level that I want you to see before you scope
+anything. Even flawless duplicate detection only sees people who called. That customer said three
+houses had the same problem; one was in the system. The other two never rang us and never appear
+anywhere. Ticket-side dedupe would have caught one of three. The route-side signal — a probe reading
+at a gate, a rider saying the box felt warm at the third stop — is where the other two live, and
+nothing joins those two worlds today.
+
+What changes from today, and it is manual: any cluster on one route, one society or one product
+inside seven days escalates to the hub manager automatically, no agent judgement involved; and
+DISP-09 becomes unavailable on Category A curd without a hub manager's countersignature, because
+"customer accepted a replacement" and "nothing was wrong" are not the same statement and we have
+been recording them as if they were.
+
+---
+
+## Q3. "A vehicle's own system flagged a temperature fault, but it took the tracking dashboard over forty minutes to pick it up. Nobody's been able to explain that gap, and it's still sitting open. Who owns figuring that out?"
+
+**Nobody owned it, for seventy-two days, and that is the true answer to your question.** Action 4
+on INC-2291 reads "detection gap at section 4: obtain explanation." Owner: unassigned. Raised
+9 June. Left open at the Indore weekly review on 14 June, left open again on 21 June, and the
+incident was closed with observation on 24 June with that action still blank. It was still blank
+when I sat down this morning.
+
+I can tell you exactly why it had no owner, because the reason is structural and it is the most
+useful thing I have learned today. Meghana Iyer owns the SOP. Vinay Kulkarni owns the vendor
+contract. Both of those jobs are properly held. Nobody in this company owns the question of whether
+the contract satisfies the SOP. Harish wrote that he recorded the gap on the incident record
+because he did not know which document it belonged against, and he was right — there is no such
+document.
+
+From today it is Vinay's to fix and Meghana's to report, split deliberately, because Vinay
+negotiated the contract that I now believe caused it and I am not having the same man own both the
+fix and the verdict on it.
+
+**And the gap is now explained, which makes the seventy-two days worse rather than better.** Annexure
+B6 of the Nirvath SOW sets the sensor polling interval at 15 minutes. Our own clause 3.2 defines an
+excursion as above 8 degrees sustained beyond 20 *continuous* minutes. Three readings are needed
+before the dashboard is entitled to declare that, and three readings at 15-minute spacing is 30
+minutes. Put INC-2291 against it: the chiller's fault memory records the compressor trip at 04:07,
+the compartment was next read at 04:15 and was already at 8.6 degrees, then 10.9 at 04:30, then
+12.3 at 04:45 — the earliest moment the test can be satisfied — and the alert came at 04:48. Eight
+minutes before anyone looked, thirty minutes of waiting for enough readings to be allowed to call
+it, three minutes of dashboard.
+
+The vendor's "no fault found" was true. Harish asked them whether the device was broken. The
+question was whether the thing we bought could meet the rule we wrote, and that question was never
+put to anybody.
+
+The part that should worry us more than the 41 minutes: that trip had an alert. Most do not. Where
+no alert fires, clause 7.1 never engages, no crate is disposed, no wastage is recorded and no
+incident is raised under 8.2 — the trip closes clean in every log we keep. So the one number I have
+is from the only case that left evidence behind. The dashboard holds thirteen months rolling and
+has never been queried for this; Meghana's team returns, by Friday 23 August, the count of Tier 2
+trips carrying three or more consecutive above-band readings where no alert was ever raised. That
+count is the size of this problem and nobody has ever seen it.
+
+---
+
+## Q4. "A society on one of your Indore routes cancelled 34 subscriptions in one shot after complaining about warm curd more than once, and none of those complaints made it to your quality team. Is that the only route where it's this bad, or is anyone checking route by route?"
+
+**Nobody is checking route by route. Not at the hub, not at Quality, not at my level.** What goes
+into the monthly reporting and onto my desk is a city number — Indore 2.6 per cent in July — and a
+city number is an average across four routes and thirty-odd mornings.
+
+But route-level data exists, it is written down every single day, and it is not aggregated
+anywhere. Here is Indore's despatch summary for 18 July, one ordinary Thursday:
+
+| Route | Drops planned | Returns | Return rate |
+|---|---|---|---|
+| IND-A (Vijay Nagar) | 71 | 8 | 11.3 pc |
+| IND-B (Rau, Bhawarkua) | 64 | 0 | 0.0 pc |
+| IND-C (Sudama Nagar) | 82 | 3 | 3.7 pc |
+| IND-D (Old Palasia, Geeta Bhawan) | 58 | 3 | 5.2 pc |
+
+Twelve of those fourteen returns were Category A. One route returned eight and one returned none.
+IND-A is Vijay Nagar. Kesar Nandanvan Society is on IND-A. That table went by email to three
+addresses that morning, as it does every morning, and no one has ever added the columns up across
+days.
+
+So to answer your question directly: no, it is almost certainly not the only route, and equally it
+is clearly not all of them. The problem is route-shaped and possibly vehicle-shaped, and we have
+been managing it with a city-shaped number that conceals a route running at four times the hub
+average. Nashik points the same way from a different direction — the April tickets were curd, all
+on the *early* routes, and the desk noticed that in writing at the time. Nobody turned it into a
+view.
+
+On the Kesar Nandanvan complaints specifically, I want to be precise about how far they got,
+because it is worse than "they did not reach Quality." SF-IND-13288 on 2 July, 13341 on 5 July,
+13402 on 9 July, 13455 on 12 July — four complaints from one society on one route in ten days. All
+four were refunded and closed at the desk. None reached the hub manager, let alone Meghana or
+Priyanka. The first time those four became a single fact was when the society secretary told a
+rider at the gate on 15 July that the committee had voted, and by then 34 of 46 households were
+gone. Harish went himself the next morning with a probe and read 9.4 degrees at the gate at 06:20 —
+delivery on that route starts at 04:35. He offered a two-week extension and a daily probe check off
+his own bat, and wrote that he did not expect to get 34 back.
+
+What I have asked for by Friday 23 August is the daily return figures rebuilt per route, per
+vehicle and per hub back to the opening of both hubs, alongside the ticket clusters by society. If
+that shows one or two bad routes rather than a uniformly bad city, then the correct response is
+different from anything memo 17 proposed, and cheaper.
+
+---
+
+## Q5. "Paid acquisition in the two new cities got cut by half. Do we know what one of these subscribers is actually worth to the business — so we know if this is a rounding error or a real dent in the growth story?"
+
+Sixty per cent, not half — and no, we do not hold that number. There is no lifetime value model in
+this business. No payback period by city, no contribution margin per subscriber, no cohort curve.
+Aparna reports gross adds and cancellations, Farida reports the P&L, and nothing in between the two
+of them says what one subscriber is worth. When we cut spend by 60 per cent on 1 August, the case
+made in the room was Aparna's phrase — that we are acquiring into a leaking bucket — and that was
+argued on the churn *rate*. Nobody put a rupee figure on the leak. I approved it anyway.
+
+I will not invent the number, but I can bound it tonight from figures that are already on the
+record, and you should treat every one of these as an order of magnitude rather than a result.
+
+Revenue was Rs 11.4 crore in Q2 across an average of roughly 31,000 active subscribers. That is
+about Rs 1,200 a month of revenue per subscriber, weighted heavily to the mature cities, and a
+Tier 2 basket is probably smaller than a Bengaluru one. On acquisition, the Board approved Rs 2.4
+crore for the launch programme of which Rs 1.55 crore was fleet, cold room and fit-out — so the
+balance, around Rs 85 lakh, was customer acquisition across both cities for twelve months. Q2 bought
+6,120 gross adds in the two cities. If the entire year's acquisition budget had been spent in that
+quarter, which it was not, we would be at Rs 1,390 a subscriber. Aparna holds the actual spend and
+I would rather you had her figure than my division.
+
+Set those against the churn. We lost 604 subscribers in Nashik and 561 in Indore inside the same
+quarter we acquired them — 1,165 people. At Rs 900 to Rs 1,200 a month that is somewhere between
+Rs 1.26 crore and Rs 1.68 crore of annualised revenue run-rate that walked out of two cities in
+ninety days, and the monthly trend is still climbing: 61, 198, 345 at Nashik; 34, 172, 355 at
+Indore.
+
+I am not going to convert that to profit for you, because I do not hold city-level contribution
+margin and Farida would be right to object if I guessed at it in front of you. But I will put the
+comparison that made me quiet when I did the arithmetic an hour ago. The packaging fix we have been
+relying on all quarter is Rs 5.7 lakh a year. The telematics saving I was going to take to the Board
+as the centrepiece of a completed cost programme is Rs 68 lakh a year. The revenue leaving through
+the failure that saving may have bought is of the order of Rs 1.3 to 1.7 crore annualised, from one
+quarter of churn, in two cities, still rising.
+
+So: not a rounding error.
+
+And the honest answer to what it dents is not the quarter. Bengaluru and Pune are contribution
+positive and the quarter is fine. What is damaged is the Tier 2 expansion thesis itself — the claim
+that this company can open a city outside its home climate and hold subscribers there — which is
+precisely the claim the Series B is being raised on. Cutting acquisition by 60 per cent stops the
+bleeding by declining to fill the bucket. It protects cash and it removes the evidence we would
+need to show the thesis works.
+
+Which makes your question the one I should have asked before I approved the cut, and the reason I
+am asking for two things from Aparna before the data room opens: a contribution figure per Tier 2
+subscriber with Farida's sign-off on the margin, and a retention curve by cohort for both hubs. And
+the exit verbatims, which were due on 15 August and are five days late, and which are still the
+only place in this company where a leaving customer explains themselves in their own words.
+
 ---
 
 *Rohit Vaidyanathan*
