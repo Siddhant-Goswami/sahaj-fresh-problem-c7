@@ -1,8 +1,8 @@
-# Sahaj Fresh — the client's response to three pitches
+# Sahaj Fresh — the client's response to six pitches
 
 **Speaking:** Rohit Vaidyanathan, Managing Director
 **Date:** 20 August 2024, evening
-**Context:** Five proposals heard back to back. My position on the packaging changed earlier today
+**Context:** Six proposals heard back to back. My position on the packaging changed earlier today
 and has not changed back — see the third round of the answers document. I am no longer defending
 memo 17 as a complete explanation, so none of you has to spend your two minutes convincing me that
 Pune is a problem. I know it is.
@@ -521,6 +521,167 @@ what it cost to close, here is the detection number before and after, and here i
 about how complaints reach a hub. That paragraph is stronger because every clause of it can be
 checked, and I will not have to defend a word of it.
 
+## Munish
+
+> *"Pune runs the same film and hits 40 degrees in May. Its returns are a fraction of Indore's. If
+> film were the cause, Pune would bleed too. What's different: Pune stayed on the old tracking
+> vendor. In June an Indore van's chiller knew it had failed forty minutes before the dashboard.
+> Nothing was broken — the polling interval you bought and the twenty-minute rule you wrote can't
+> both be met. Catch a warm van, crates come back and get written off. Miss it, the failure lands at
+> two hundred doors. Two ledgers, and you've read Indore's. Test: IND-A, ten mornings, one person, a
+> probe and a sheet. A reading every five minutes, and what the customer did at each door. If vans
+> are in band and people still refuse, I'm wrong — back to packaging. Cost: one person, ten
+> mornings, nothing touched. Against sixty-eight lakh on that contract and over a crore that walked
+> last quarter."*
+
+### What is right about it
+
+**The two ledgers.** I reached that this evening, answering somebody else's question, and it took me
+four paragraphs and a table. You put it in six words. Catch it and it is wastage; miss it and it is
+a doorstep. Pune and Indore may be suffering the same event at a similar rate and filing it in two
+different books, and the book I read every month is the one that looks clean when nothing is
+working. If you take nothing else out of tonight, that sentence is the one I am repeating to my
+Board.
+
+**You are the only person who has proposed to go and look.** Five people tonight proposed to query
+something. Queries interrogate records we already keep, and the whole finding is that the records we
+keep are silent exactly where the failure is. There is no field in any system we own that holds a
+compartment temperature and what the customer at that door did about it, in the same row, at the
+same minute. You cannot query your way to a row that does not exist. Somebody has to stand there
+with a probe and write it down. That is why yours is the pitch I am most confident about and it is
+the cheapest one I have heard.
+
+**You picked the right route.** I doubt you knew how right. On 18 July, IND-A returned eight on
+seventy-one drops — eleven per cent — while IND-B returned nothing on sixty-four, on the same
+morning, out of the same cold room, on the same film. IND-A is Vijay Nagar. Kesar Nandanvan is on
+IND-A. The hub number for that month was 2.6 per cent, so my monthly report was averaging a route
+running at four times it against a route running at zero, and telling me a city had a mild problem.
+
+**And you wrote your losing condition down before you started.** Third time tonight, and it is still
+the thing that separates the people I will spend money with from the people I will not.
+
+### My objections
+
+**One. "The polling interval you bought and the twenty-minute rule you wrote can't both be met" is
+not right, and the truth is worse than your version.** I have said something close to your sentence
+twice today myself, so this correction is as much mine as yours.
+
+They can both be met. Take the 9 June trip and measure it the way the documents measure it. First
+recorded reading above band 04:15. Twenty continuous minutes of breach is therefore established at
+04:35. Clause 6.3 allows one polling cycle from that point — fifteen minutes, so 04:50. The alert
+came at 04:48. **That trip was compliant.** Two minutes inside the obligation, and forty-one minutes
+of product warming, and a rider making drops through most of it.
+
+So we are not in breach and I have been telling people all day that we are. What we have is a rule
+that measures from the first reading rather than from the fault, on an instrument that only reads
+every fifteen minutes, which means up to a quarter of an hour of warming happens before the clock
+that governs us starts. Clause 8.2 says an incident shall be raised where detection exceeded the
+6.3 obligation. It never exceeded it. That is why no incident has ever been raised on detection
+grounds at either hub, and why action 4 sat unowned — the system was reporting itself compliant
+throughout.
+
+There is a second half to it that is yours to use. A genuine excursion of, say, twenty-two minutes
+gives you two above-band readings and never a third. Two readings establish fifteen minutes. It
+never reaches twenty, it is never an excursion, no alert fires, no crate is held, nothing is
+recorded. Not a late alert. None. Every one of those mornings closes clean in every log we keep.
+
+Say that version instead of yours. Yours can be argued with by a vendor. That one cannot.
+
+**Two. Your falsifier does not send you where you think it does.** "If vans are in band and people
+still refuse, I'm wrong — back to packaging." No. It sends you to a third possibility, and I have a
+reading that already points at it. Harish went to Kesar Nandanvan on 16 July with a probe and read
+**9.4 degrees at the gate at 06:20**, on a route that starts dropping at 04:35. That is not a
+compartment reading. That is product that has been out of the compartment, in a crate, in a rider's
+hands, up four floors and back down, for some part of two hours. A van can be in band all morning
+and the pouch at the door can be out of band, and that is neither telematics nor film — it is the
+last hundred metres, which nobody in this company measures at all.
+
+So probe both. The compartment every five minutes as you proposed, and the actual pouch at the door
+on a sample of drops — say every fifth one, and every drop where the customer refuses. Costs you
+nothing, takes the observer thirty seconds, and it converts your ambiguous null into a real answer.
+If the compartment is in band and the pouch at the door is at nine degrees, you have found the
+third failure and it is cheaper to fix than either of the other two.
+
+**Three. Ten mornings on one route can hand you a null that means nothing, and I want to know in
+advance what we do with it.** The chiller failure that produced INC-2291 was a dead auxiliary
+battery, and the June audit replaced six of those at Indore and four at Nashik. It is entirely
+possible you stand on IND-A for ten mornings and never see a single excursion, and that would tell
+us nothing except that ten is a small number.
+
+Two things fix it. First, run a control: IND-B, same hub, same vans, same film, same riders' depot,
+the route that returned zero on 18 July. Same sheet, same ten mornings. What I care about is not
+IND-A's absolute number, it is the difference between two routes out of one cold room, and a
+difference is the one thing a null cannot take away from you. I would rather pay for two people for
+ten mornings than one person for twenty.
+
+Second — and you should hear this from me rather than discover it on day four — putting an observer
+with a clipboard on a route changes the route. The rider will pre-cool differently, close the door
+faster, and stop leaving the crate in the sun at the gate. If refusals on IND-A fall to zero the
+moment your person turns up, that is not a disproof of anything. It is a finding of a different
+kind and it is worth having, but you must write down before Monday what each of the three possible
+outcomes means, because after the fact everybody finds a story that suits them. I have watched this
+company do exactly that with four support tickets and a memory of Pune.
+
+**Four. "What the customer did at each door" is not enough, and the gap is the whole reason this
+went unseen for four months.** Accepted and refused are not the two outcomes. There is a third —
+accepted, said nothing, and cancelled a fortnight later. One Nashik subscriber told us it was the
+second time that month and that she had not complained the first time. Another told us three houses
+in his building had the same problem the previous day; one of the three was in our system. Refusal
+at the door undercounts, and we do not know by how much.
+
+So record the drop identifier at every door, and then join it forwards: any ticket raised against
+that subscriber in the following twenty-four hours, and any cancellation in the following thirty
+days. That join has never been made in this company. It costs a column on your sheet and a query
+afterwards, and it is the closest thing to a direct measurement of what warm curd actually costs us
+that anybody has proposed tonight.
+
+**Five. Your cost framing is right and one of your numbers is not, and I am going to be pedantic
+because this one is going in front of a Board.** "Over a crore that walked last quarter" is not a
+statement I can defend. What walked last quarter is 1,165 subscribers across the two hubs. That is
+of the order of **Rs 1.26 to 1.68 crore of annualised revenue run-rate**, on a blended revenue per
+subscriber I derived myself an hour ago and which is weighted to the mature cities. The cash that
+actually left the business inside the quarter is a good deal smaller than a crore, and I do not hold
+a city-level contribution margin at all — Farida does, and I am not going to guess at it in this
+room.
+
+Say the defensible version: one thousand one hundred and sixty-five subscribers in ninety days,
+still climbing month on month, against a fix that has already been priced at Rs 1.56 lakh a year.
+Nobody can argue with that and it does not need the crore.
+
+While I am on it — sixty-eight lakh is the right number to hold this against, but hold it correctly.
+The saving is not the cost of the fix. Saksham found the rate card tonight: Annexure D closes the
+polling gap for about Rs 1.56 lakh a year across all forty-two vehicles, which is two and a third
+per cent of the saving that created it. Your test does not have to justify itself against Rs 68
+lakh. It has to tell me whether that Rs 1.56 lakh is the right Rs 1.56 lakh, which is a far lower
+bar and makes your pitch stronger, not weaker.
+
+**Six. Not Harish, and not an ops probe.** The observer must not be the man who supervises that
+route, offered that society a retention deal, and wrote the report that started this. That is no
+reflection on him — he is the reason any of us know about Pune — but a number that goes into a data
+room cannot be produced by the person whose route is being judged. Priyanka's team has calibrated
+probes and the discipline to record a certificate number next to a reading, which under clause 4.3
+of our own SOP is the difference between evidence and an anecdote. QA holds the probe. Ops holds
+the van. Nobody holds both.
+
+### Verdict: **Yes. Start Monday, and it is the item I would keep if I had to cut every other one.**
+
+Two routes, ten mornings, QA probe, compartment every five minutes, pouch at the door on a sample
+and on every refusal, drop identifiers recorded and joined forward to tickets and cancellations.
+The three outcomes and what each one means, written down and given to me before the first morning.
+
+One thing to be aware of on timing. Ten mornings from Monday 26 August finishes in the first week of
+September, which is after the 31 August re-baseline and inside the window where the data room opens.
+That is not a reason to rush it. It is a reason to tell Meghana now, because she is already trying
+to work out whether the 31st can separate the film reversion from anything else we touch this
+month, and your test is one more thing landing in her window.
+
+And I want to be clear about the order of things, because your pitch and TJ's are not competitors.
+His is retrospective and costs an afternoon and can be on my desk Monday evening. Yours is
+prospective and takes ten mornings and produces the row that does not exist anywhere in our systems.
+Run both. If TJ's query shows Indore's August materially below its May-to-July line, your test tells
+me whether that was the film or something else that changed. If it does not, your test is the only
+instrument I have got.
+
 ---
 
 ## What happens Monday
@@ -531,6 +692,7 @@ checked, and I will not have to defend a word of it.
 | 2 | Mayur | Nirvath and Sarathi device configurations side by side, both fleets, on paper. Then what it would take to measure detection latency going forward. | Mon evening |
 | 3 | Vinay Kulkarni | Annexure D variation, both options priced — 5 minute at Rs 1.56 lakh a year and 60 second at Rs 4.74 lakh — with the detection number each produces. I choose Tuesday. | Tue morning |
 | 3a | Saksham | Induced-breach test on a stationary van: first breach to alert, current configuration. Gives us the before number. | Mon afternoon |
+| 3b | Munish | Two routes, ten mornings, QA probe. IND-A and IND-B, compartment every five minutes, pouch at the door on a sample and on every refusal, drop IDs joined forward to tickets and cancellations. Three outcomes and what each means, in writing, before the first morning. | Starts Mon, reports 6 Sep |
 | 4 | Dev Sharma | The missing half of his own pitch: what he would test, the two numbers, what it costs to find out and what it costs to run. | Mon, with 1 and 2 |
 | 5 | Deepak | Revised pilot per the above, gated on 1, 2 and 3. | Wed |
 | 6 | Meghana Iyer | Whether the 31 August re-baseline can still separate the film reversion from anything else we change this month. If it cannot, tell me now. | Fri |
@@ -544,8 +706,11 @@ Item 7 is the one I have added on my own account, after Dev's pitch. If the answ
 expect it to be, then the second failure is larger than the first and it is the one I can fix
 without buying anything from anybody.
 
-Costs: items 1, 2 and 4 are three person-days. Item 3 is a phone call. Item 7 is a query somebody
-should have run in May. I am approving all of them now.
+Costs: items 1, 2 and 4 are three person-days. Item 3 is a phone call. Item 3b is twenty QA
+mornings and the loan of two calibrated probes, and it is the only line here that costs me a person
+for more than a day — it is also the one I would keep if I had to cut everything else, because it
+is the only item that produces a fact we do not already own. Item 7 is a query somebody should have
+run in May. I am approving all of them now.
 
 ---
 
