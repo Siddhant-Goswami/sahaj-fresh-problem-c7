@@ -717,3 +717,191 @@ run in May. I am approving all of them now.
 *Rohit Vaidyanathan*
 *Managing Director, 20 August 2024*
 *Signed on paper. Copies to V. Kulkarni and M. Iyer.*
+
+---
+
+# Addendum — Monday 26 August 2024
+
+*Written the same evening the Monday items came back. It belongs with the Friday document rather
+than in a new one, because it is the answer to a condition I set on Friday and it changes two of the
+decisions above.*
+
+---
+
+## Dev Sharma — the missing half, delivered
+
+> *"The thing to test is what nobody in this company has ever measured. Not the compartment. The
+> crate, at the door, where the customer is standing… Fourteen mornings, both Tier 2 hubs, on the
+> reverted film. Every rider takes three probe readings — third drop, middle drop, last drop — and
+> writes them on the trip sheet he already carries and already signs… Doorstep readings inside band
+> on the large majority of drops, and Category A returns still above two per cent. Then temperature
+> at the door is not the mechanism, Priyanka's lab carries the whole thing, and everything I have
+> argued since Friday is wrong… No software. No contract. Nothing touching the Rs 1.82 crore."*
+
+### What is right about it
+
+**You argued me out of a number I had suggested, and you were right.** I proposed onset-to-detection
+on Friday. Your answer is that we hold exactly one such measurement in the entire company, that it
+exists only because a chiller's fault memory happened to record a compressor trip, and that Mayur
+and Vinay answer that half between them without needing you. That is correct, and it is the first
+time this week somebody has declined a metric I offered them instead of taking it to be agreeable.
+Onset-to-detection stays as Vinay's compliance number. It is not your test's number and it should
+not have been.
+
+**You have found the same thing Munish found, from the other end, and neither of you had heard the
+other.** He came at it from Harish's probe reading at the gate. You came at it from the excursion
+definition. You have both landed on the one measurement this business has never taken, and I now
+have two independently-arrived-at designs for taking it. That is worth more to me than either
+design on its own, and I will come to what I am doing with both of them.
+
+**The sentence about what your own proposal will not do.** "This doesn't bring back Kesar Nandanvan.
+Churn lags a subscription cycle whatever we do." Nobody sells like that, and I have had four days of
+people telling me what their thing will fix. You are also right about what it does buy: two
+independent readings where Meghana currently has one contested rate. I have been saying since Friday
+that the 31st has stopped being able to answer anything. Your paragraph is the first proposal that
+addresses that rather than adding to it.
+
+**And you acknowledged the spreadsheet before I could.** I told you on Friday that somebody in the
+room would say the aggregation half is a person and an hour a morning, and that if your Monday
+paragraph did not say it first, it would be said to you. You said it first, and then offered to do
+it by hand for a fortnight so I can see the output before I fund anything permanent. That is the
+correct order and it is now approved.
+
+### My objections
+
+**One, and it is the important one. Your falsifier is contaminated and you do not need it.**
+
+"Doorstep readings inside band on the large majority of drops, *and* Category A returns still above
+two per cent." The second clause of that is a monthly rate, and the monthly rate has three things
+moving in it — the film reversion in late July, the acquisition cut on 1 August, and now the tests
+themselves. Meghana has been telling me for a week that she cannot separate two changes in that
+window. You are proposing to hang your own disproof on the same number, and if it comes in at 1.8
+per cent neither of us will know what that means.
+
+You do not need it. Your design already contains a cleaner test than the one you wrote down, and I
+do not think you noticed it. **Compare the refusal rate at doors that read out of band against the
+refusal rate at doors that read in band, on the same route, on the same morning, off the same van.**
+Same film, same riders, same cohort, same weather, same everything. Every confound I have been
+worrying about since Friday cancels, because both groups share it. If out-of-band doors refuse at
+several times the rate of in-band doors, temperature at the door is the mechanism and no monthly
+rate is required to say so. If the two rates are the same, you are wrong, and you will know it
+inside a fortnight rather than at a re-baseline.
+
+That also means the three readings per route are not enough. Three readings give you a route
+average; the test I have just described needs a reading joined to a *door*. Take the same three
+drops, but record what happened at those three doors specifically — accepted, refused, or accepted
+and a ticket raised within twenty-four hours. Forty-two readings a morning across both hubs, each
+tied to an outcome, and over fourteen mornings that is a sample worth arguing about.
+
+**Two. "No alert was going to fire at any polling interval Vinay can buy on Tuesday" is too strong,
+and the correct version hands you something better.**
+
+A twenty-two-minute excursion at fifteen-minute polling gives you two above-band readings, never a
+third, never establishes twenty continuous minutes, and produces nothing — you are right about that
+and it is the finding I reached at midnight on Friday from the contract end. But at five-minute
+polling that same twenty-two minutes *is* caught. Vinay's variation does buy that case.
+
+What it does not buy — and this is your actual point, so make it this way — is product that never
+goes above eight degrees in the compartment at all, or goes above it for twelve minutes, and still
+arrives at a fourth-floor door at 9.4 degrees an hour and a half later because it has been out of
+the compartment in a crate in a stairwell. No polling interval in any rate card reaches that,
+because the instrument is in the van and the failure is in the rider's hands.
+
+And there is a consequence I want on the record. The binding constraint is not the polling interval
+we bought from Nirvath. It is clause 3.2 — twenty continuous minutes above eight degrees — which is
+in *our* document, written by us, and can be changed by Meghana on a Tuesday for nothing. That is
+the cheapest lever on the table and nobody has mentioned it in four days. I am not pulling it yet,
+because a shorter definition means more confirmed excursions, which means clause 7.1 fires more
+often, which means the wastage line I already told Deepak to expect goes up further still. But it
+belongs in the options and it costs nothing.
+
+**Three. The trip sheet is the wrong home for the readings, and it expires.**
+
+Clause 9.1 of our own SOP: trip sheets are retained for **ninety days**. Excursion logs are
+thirty-six months. So the entire evidentiary base of your fortnight — the only doorstep measurements
+this company will ever have taken — is on paper that we are entitled to destroy in late November,
+which is after the data room opens and while somebody is still asking questions about it.
+
+Use the trip sheet for capture, because you are right that the rider already carries it and already
+signs it and that is why this costs thirty seconds. But the ten minutes of keying in has to land
+somewhere with a retention period, against the trip ID, and the paper has to be kept for the
+duration of this exercise regardless of what clause 9.1 permits. Meghana arranges that before the
+first morning.
+
+**Four. Nobody has said what is being probed, and without that the numbers will not be comparable.**
+
+Harish's 9.4 was taken at a gate on 16 July. Was that the crate air, the outside of a pouch, or a
+pouch centre? Those are three different numbers off the same crate, and fourteen riders across two
+hubs will otherwise produce all three, mixed, in one column. Priyanka writes a one-page method —
+what is probed, where, for how long, what is recorded — before Monday's first drop, and it is a
+page, not a project.
+
+The same goes for the instruments. You have asked, correctly, whether the clause 4.1 probes are on
+the vans or in a drawer, and I do not know the answer; Meghana is checking and I am not going to
+pretend to you that I know. But add clause 4.3 to your check: calibration at intervals not exceeding
+six months, certificates retained twenty-four months. If somebody hands me a fortnight of readings
+off uncalibrated handhelds, I have a fortnight of anecdotes, and Munish made the same point about
+who holds the probe on Friday.
+
+**Five. Your honesty check on the riders is right and one ride-along a week is not enough.**
+
+You wrote it yourself — a rider who thinks I want a good number can write one. That is not cynicism,
+it is what happens when the person being measured records the measurement. One ride-along a week
+across two hubs and eight routes means a given rider is checked roughly once a month.
+
+I am solving this a different way, and it is the reason both of your and Munish's designs are being
+funded rather than one. Munish's QA observer is on IND-A and IND-B for ten of your fourteen
+mornings, with a calibrated probe, taking readings independently. Those are two of your eight
+routes. So for ten mornings I have two records of the same drops — one written by the rider, one
+written by an observer who does not report to the hub. **The gap between those two columns is a
+direct measurement of how honest the rider-written data is**, and it tells me whether the cheap
+wide instrument can be trusted at the other six routes and at four more hubs after that. Neither of
+you designed that. It falls out of running both, which is why I am running both.
+
+**Six. On the recurring cost, the fortnight's real product is not the flags.**
+
+Half a role at four hubs and one at eight is the right way to price it and I accept the framing —
+you are also right that I will not sign an infrastructure line that quietly hands back what I cut.
+But an hour a morning per hub reading twenty tickets by hand is a number that holds until Tier 2
+doubles and then does not.
+
+So while you are doing it by hand, write down every judgement you make: what made you flag a second
+complaint from one building, what made you leave one alone, what you looked at that turned out not
+to matter. That log is the specification for whatever eventually replaces the person, and it is the
+only way to write that specification honestly. Do the fortnight as a manual process and treat the
+notebook as the deliverable.
+
+### Verdict: **Approved and funded, both halves, starting tomorrow morning.**
+
+Fourteen mornings, both hubs, three drops a route, each reading joined to a door outcome and to any
+ticket in the following twenty-four hours. Priyanka's method page and the calibration check before
+the first drop. Meghana takes the readings off paper into something with a retention period. The
+headline number is the refusal rate at out-of-band doors against in-band doors on the same morning —
+not the monthly rate, which cannot answer anything before October.
+
+Your two numbers stand as proposed: share of doorstep readings inside the two to eight band, and
+share of out-of-band doorstep readings against which the dashboard raised nothing. On the second
+one, note that Meghana is producing the same quantity from the opposite direction — trips carrying
+three or more consecutive above-band readings with no alert raised. If your number and hers disagree
+materially, that disagreement is itself worth a paragraph, because it means the dashboard and the
+doorstep are seeing different mornings.
+
+One practical thing that will otherwise sink the join: every probe reading needs the **time** and
+the **trip ID** written next to it. Without those two, a doorstep reading cannot be set against a
+dashboard record at all, and the second of your two numbers becomes uncomputable. It is the sort of
+column that gets left off a paper form and discovered in week three.
+
+Your two conditions are accepted as you set them. Wastage is counted from day one and reported
+beside the churn number, not underneath it — I said that to Deepak on Friday and you were right to
+hold me to it in writing. And the point about Kesar Nandanvan stands in the record: this does not
+bring those thirty-four back, churn lags a cycle, and what we are buying is that Meghana's number on
+the 31st stops being the only thing we have.
+
+Joseph's count lands Wednesday. If it says what I now expect, your fortnight starts the day after
+with the aggregation half already justified.
+
+---
+
+*Rohit Vaidyanathan*
+*Managing Director, 26 August 2024*
+*Copies to V. Kulkarni, M. Iyer, P. Deshmukh. Priyanka: the method page is the gating item.*
