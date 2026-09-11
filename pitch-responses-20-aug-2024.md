@@ -1,8 +1,8 @@
-# Sahaj Fresh — the client's response to six pitches
+# Sahaj Fresh — the client's response to seven pitches
 
 **Speaking:** Rohit Vaidyanathan, Managing Director
 **Date:** 20 August 2024, evening
-**Context:** Six proposals heard back to back. My position on the packaging changed earlier today
+**Context:** Seven proposals heard back to back. My position on the packaging changed earlier today
 and has not changed back — see the third round of the answers document. I am no longer defending
 memo 17 as a complete explanation, so none of you has to spend your two minutes convincing me that
 Pune is a problem. I know it is.
@@ -682,6 +682,135 @@ Run both. If TJ's query shows Indore's August materially below its May-to-July l
 me whether that was the film or something else that changed. If it does not, your test is the only
 instrument I have got.
 
+## Veerendar Jonnala
+
+> *"In Q2, Tier 2 cancellation rates were around 19%, and 68% of those cancellations were related to
+> quality. We also found that Category A returns increased from 0.3% to 2.1%. The QA investigation
+> linked the curd pouch problem to the change from 65-micron to 55-micron film, especially under
+> high temperatures. So before building anything, I want to test whether changing the film back to
+> 65 microns actually brings the return rate below 0.5%. We can start with one hub and track
+> dispatches and returns manually, so there is no software cost involved."*
+
+### What is right about it
+
+**Every number you quoted is correct and I did not have to check a single one twice.** Nashik 19.0
+per cent of gross adds and Indore 19.1 against 6.4 and 6.5 in the mature cities. Sixty-eight per
+cent of Tier 2 cancellations citing product condition against nineteen in Bengaluru. Category A
+returns from a 0.3 per cent baseline to 2.1 over the six weeks to 17 May. I have corrected three
+people's arithmetic tonight and none of it was yours.
+
+**And you are the only person in four days who has proposed to test the explanation this company
+actually holds, rather than the one the room arrived at this afternoon.** I want to be careful here,
+because there is a failure mode in this building that you are the only guard against. I changed my
+position on the packaging twelve hours ago. Six people have since pitched me on detection. A room
+that turns over its cause in a day can turn it over again, and Priyanka's lab result is real —
+conditioned four hours at 40 degrees, seal peel 14.2 newtons against a specification of 18, six
+failures in twenty on the drop test against a limit of one. That did not stop being true this
+afternoon because a supervisor rang Pune.
+
+So I do not want the counterweight to leave the room. I want it to be a better counterweight, and
+that is what the rest of this is.
+
+### My objections
+
+**One. The test you are proposing has already run, and you can have its answer tomorrow evening
+without spending a rupee.**
+
+The purchase order for 65 micron went in on 4 June. First Tier 2 despatch on reverted film was the
+week of 22 July. It is 20 August. The experiment you want to start has been running for four weeks
+and the despatch and return records are sitting in the system. You are asking me to begin,
+prospectively, something that concluded while we were arranging this meeting.
+
+TJ pitched the retrospective version of your test earlier tonight and has it on my desk Monday
+evening. That is not a reason your instinct was wrong. It is a reason that the specific thing you
+asked me for is already bought.
+
+**Two. You did not mention Pune, and Pune is the reason this room is having a different
+conversation.**
+
+Pune is on the same national film contract, the same 55 micron. Pune touched 40 degrees on 22 and 23
+May and 41 on 26 May. Pune returned 0.2 per cent in May, 0.3 in June, 0.2 in July, while Indore ran
+1.9, 2.4 and 2.6. A city on the failing film, hotter than Indore, with a tenth of the returns.
+
+Memo 17's mechanism is that the film holds at ambient and fails above 40 degrees. If that is the
+cause of a 19 per cent cancellation rate, Pune should be bleeding and Pune is not. That single fact
+is why I stopped defending memo 17 today, and every other pitch tonight opened with it. Yours does
+not contain the word.
+
+I am not scoring a point. I am telling you what it costs, because I did exactly what you are
+proposing. On 11 July I took a lab result with a plausible mechanism, called it the cause, put a
+Rs 5.7 lakh corrective action against it and set a re-baseline date six weeks out. That is your
+pitch, almost word for word, and it cost me a quarter and thirty-four households in one society
+while an unassigned action about a forty-one minute detection gap sat open on an incident record.
+The lab was not wrong. It was incomplete, and the thing that would have told me so was a number
+Harish already had on 18 July and could not get anybody to look at.
+
+**Three. Your success criterion cannot tell you what moved the number, and the dangerous outcome is
+the one where you pass.**
+
+"Below 0.5 per cent" is Meghana's commitment and it is the right threshold. But three things land in
+that measurement window: the film reversion in late July, the 60 per cent acquisition cut on
+1 August, and now several tests I have approved tonight. If the rate comes in at 0.4, your design
+cannot tell me which of them did it.
+
+And think about what happens next if it does come in at 0.4. Memo 17 closes as vindicated. The
+detection gap goes back to being an unowned line on a closed incident record. That is not a
+hypothetical failure mode — it is a description of what happened in this company between 21 May and
+this afternoon. A pass on your test is more dangerous to me than a fail, and any test where the
+good outcome is the dangerous one needs a second instrument beside it.
+
+**Four. "Start with one hub" is not available, and the level you have chosen hides the signal.**
+
+There is no unexposed arm. The reverted film went to both Tier 2 hubs off one purchase order in the
+same week, so there is no hub still on 55 micron to compare against. You cannot design a controlled
+trial of a change that has already been made everywhere it was going to be made — the only control
+that ever existed is Indore against its own May-to-July line, which is TJ's.
+
+And a hub-level rate averages away the thing worth seeing. On 18 July at Indore, route IND-A
+returned eight on seventy-one drops while IND-B returned nothing on sixty-four, same cold room, same
+morning, same film. A hub number of 2.6 per cent is the average of a route at eleven per cent and a
+route at zero. Whatever is happening is not happening to a hub.
+
+### Verdict: **No as pitched. Yes to a reshaped version, and the reshaped version is more important than the one you brought.**
+
+I am not funding a prospective trial of a change that has already shipped, measured at a level that
+conceals the variance, against a criterion that three other things are moving.
+
+Here is what I want from you instead, and I am giving it to you specifically because you are the
+person in this room least likely to let the packaging question go, and both of these items are
+jobs where that is the qualification.
+
+**One — go and verify that Pune is actually on 55 micron.** Everything I have conceded today rests
+on it, and what it rests on is a line in a procurement schedule. Nobody has read a lot code off a
+pouch that was actually delivered in Pune. If it turns out that PNQ-1 has been drawing from retained
+Sanchit stock, or that the national contract was applied late there, or that Pune's supply reverted
+for some reason nobody recorded, then memo 17 is rehabilitated, six pitches tonight were built on a
+false premise, and I have reopened a cost programme I did not need to reopen. That is the one check
+still capable of overturning the position I took this afternoon, it costs a morning and a phone
+call, and you are the right person to run it because you will actually want it to come back the
+other way. Priyanka gives you the method and the lot code format.
+
+**Two — establish the date the reverted film actually reached customers, per hub.** "Week of 22
+July" is a despatch date from a supplier. What nobody has is the date the first 65-micron pouch was
+handed to a subscriber at Nashik and at Indore, which is despatch plus transit plus goods inward
+plus whatever 55-micron stock was sitting in each cold room and got used first. Those two hubs
+almost certainly turned over on different days. Goods receipt notes at each hub and lot codes on the
+pouches will give it to you.
+
+Understand why that is the more important of the two. TJ's before-and-after split needs it and he
+does not have it. Meghana's 31 August re-baseline needs it. Any field test that describes itself as
+running "on the reverted film" needs somebody to have established that it is. Almost every piece of
+analysis I have approved tonight has a before-and-after in it and not one of them currently knows
+where the line goes. You would be supplying the missing axis for four other people's work, manually,
+with no software, which is exactly the shape of engagement you pitched.
+
+**And to be clear about what I am not doing: the film reversion stands.** I am not cancelling it and
+nobody tonight has asked me to. Priyanka's results are real, 65 micron is the correct specification
+for a city that runs at 40 degrees regardless of what else is true, and the conditioned seal test
+she added to inbound acceptance is the one durable improvement to come out of this whole episode.
+What I no longer believe is that Rs 5.7 lakh of film is going to fix a 19 per cent cancellation
+rate. Both of those can be true, and holding both is the position you should be arguing from.
+
 ---
 
 ## What happens Monday
@@ -697,6 +826,7 @@ instrument I have got.
 | 5 | Deepak | Revised pilot per the above, gated on 1, 2 and 3. | Wed |
 | 6 | Meghana Iyer | Whether the 31 August re-baseline can still separate the film reversion from anything else we change this month. If it cannot, tell me now. | Fri |
 | 7 | Joseph Mathai | How many DISP-07 Category A tickets were closed at the desk without reaching a hub manager, Tier 2, since 8 April. Count only. | Wed |
+| 8 | Veerendar Jonnala | Lot codes read off pouches actually delivered at PNQ-1, against Priyanka's method. Then the date the reverted film first reached a customer at NSK-1 and at IND-1, from goods receipt notes and lot codes. | Wed |
 
 Nothing gets built this week. Nobody writes any software until items 1 to 3 are on my desk, and if
 item 3 comes back small then item 5 may not be a pilot at all, it may be a purchase order and a
@@ -710,7 +840,8 @@ Costs: items 1, 2 and 4 are three person-days. Item 3 is a phone call. Item 3b i
 mornings and the loan of two calibrated probes, and it is the only line here that costs me a person
 for more than a day — it is also the one I would keep if I had to cut everything else, because it
 is the only item that produces a fact we do not already own. Item 7 is a query somebody should have
-run in May. I am approving all of them now.
+run in May. Item 8 is two mornings, a telephone call to a hub and a magnifying glass. I am approving
+all of them now.
 
 ---
 
