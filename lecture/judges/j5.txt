@@ -1,0 +1,11 @@
+You check one thing only.
+
+Ticket:
+{ticket}
+
+Model output:
+{output}
+
+Question: is the output's `condition` the symptom the customer stated, rather than one inferred from context? The condition is warm, sour, watery, other, or none. If the ticket names a symptom in words, `condition` must be that symptom. If the ticket names no symptom — it says only that a complaint was made, or that a pattern repeated, or that the caller did not ask what was wrong — then the only condition the ticket supports is "other", and any of warm, sour or watery is inferred. If the ticket says nothing was wrong, the condition is "none".
+
+Answer with JSON {"pass": true|false, "evidence": "<the words in the ticket or output that decided it>"}. Do not judge anything else. Do not judge `escalate`, do not judge `route`, and do not judge whether the condition is the one you would have chosen if the ticket were clearer.

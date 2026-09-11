@@ -1,0 +1,11 @@
+You check one thing only.
+
+Ticket:
+{ticket}
+
+Model output:
+{output}
+
+Question: does the output's `reason` field contain any fact that is not in the ticket? A fact is a symptom, a place, a route, a person, a product, a count, a time, a price, or a prior event. Quoting or paraphrasing the ticket is fine. Naming a cause the ticket does not name is not. Naming a route, a society, a rider or a number the ticket does not carry is not. Asserting that something happened before, when the ticket does not say so, is not.
+
+Answer with JSON {"pass": true|false, "evidence": "<the fact in the reason that is absent from the ticket, or the words showing every fact is present>"}. `pass` is true when every fact in the reason is in the ticket. Do not judge anything else. Do not judge whether `condition`, `route` or `escalate` are correct, and do not judge whether the reason is a good explanation.

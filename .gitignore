@@ -6,3 +6,26 @@
 node_modules/
 .vercel
 .env*
+
+# ---- lecture answer keys ----
+# Same rule as .facilitator-src/ above: this repo is public, and a labelled
+# eval set in a public repo is a set that no longer measures anything. The
+# scripts, the criteria sheet, the guardrail table and the tool-change spec
+# are all here; the answers are not.
+#
+# These live only on the facilitator's machine. There is no generator in the
+# repo that rebuilds them, because the generator IS the answer key. Back them
+# up, or re-encipher them through build-fac.js the way the hidden set is.
+lecture/tickets.json
+lecture/build-tickets.js
+lecture/outputs.json
+lecture/deck.html
+lecture/RECONCILIATION.md
+agent-bench/tasks.js
+agent-bench/report.json
+agent-bench/runs/
+
+# Student submissions and the facilitator's own stage-5 prompt. p1 and p2 are
+# other people's work; p3 is a model answer to stage 5.
+lecture/prompts/*
+!lecture/prompts/README.md

@@ -10,3 +10,10 @@ build-fac.js
 .DS_Store
 node_modules/
 .env*
+
+# Lecture artifacts. Built from the corpus for the facilitated session and for
+# the evals-and-guardrails lecture. Never deployed: lecture/tickets.json is a
+# labelled eval set and agent-bench/ carries goal states. Serving either as a
+# static file turns both into sets that no longer measure anything.
+lecture/
+agent-bench/

@@ -84,6 +84,8 @@ js/data.js            stages, seed cases, prices, enciphered facilitator pack
 js/llm.js             provider adapter and the run ledger
 js/app.js             player, gates, and the nine stage benches
 corpus/wave-1/        the nine documents the client shared
+lecture/              evals-and-guardrails lecture material (answers gitignored)
+agent-bench/          tool-calling bench for the lecture (goal states gitignored)
 ```
 
 ## For facilitators
@@ -98,6 +100,12 @@ intends — on request, after the rewrite — and treat a leaked set as a set th
 
 The plaintext source lives in `.facilitator-src/pack.json`, which is gitignored. To change the pack, restore
 that file and run `node build-fac.js "<passphrase>"`.
+
+`lecture/` and `agent-bench/` hold the material for the evals-and-guardrails lecture: the criteria sheet, the
+judge prompts, the guardrail table, the runners and the slide builder. They are in `.vercelignore` so they are
+never served, and their **answer-bearing halves are gitignored** under the same rule as the pack — a labelled
+eval set in a public repo is a set that no longer measures anything. `lecture/README.md` says exactly what is
+in the repo and what only exists on the facilitator's machine.
 
 ## Provenance
 

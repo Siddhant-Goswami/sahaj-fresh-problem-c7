@@ -1,0 +1,11 @@
+You check one thing only.
+
+Ticket:
+{ticket}
+
+Model output:
+{output}
+
+Question: does the ticket carry a signal that this complaint should be escalated, and does the output's `escalate` field match? A signal is any one of: the customer says it has happened before; other households or neighbours are reported; someone is unwell; two or more units were refused or taken back; a named society, committee or secretary raises it, or a cancellation is threatened. A single first-time complaint, a complaint that is not about product condition, and praise are all not signals.
+
+Answer with JSON {"pass": true|false, "evidence": "<the words in the ticket or output that decided it>"}. Do not judge anything else. Do not judge whether `condition` is right, whether `route` is right, or whether the reply is well written.
